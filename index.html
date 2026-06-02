@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실버 배움터 - 함께 성장하는 즐거움</title>
+  <!-- Google Fonts - Outfit for UI controls & Noto Sans KR for rich Korean readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- 어르신을 위한 쉬운 도움말 설명서 모달 -->
+  <div id="helpModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+    <div class="modal-card">
+      <h2 id="helpModalTitle">💡 홈페이지 쉬운 설명서</h2>
+      <div class="modal-body font-large">
+        <p>어르신들께서 실버 배움터를 편안하게 즐기실 수 있도록 마련한 특수 기능입니다.</p>
+        <ul class="help-list">
+          <li><strong>글씨 크기 (A-, A, A+)</strong>: 화면 맨 위 오른쪽에 있는 버튼을 누르시면 홈페이지의 모든 글씨를 큼직하게 키울 수 있습니다.</li>
+          <li><strong>🔊 목소리로 듣기 (스피커)</strong>: 글 제목이나 소개 옆에 있는 스피커 버튼을 누르시면 컴퓨터가 따뜻하고 차분한 목소리로 글을 읽어드립니다.</li>
+          <li><strong>어두운 화면 (고대비)</strong>: 눈이 쉽게 피로하거나 잘 보이지 않으시는 분들은 반달 아이콘을 클릭하여 검은색 배경의 고대비 화면으로 바꿀 수 있습니다.</li>
+          <li><strong>🎮 두뇌 게임 & 📱 스마트폰 연습기</strong>: 화면 중간에 실제로 카드를 뒤집는 두뇌 게임과 스마트폰으로 문자 보내는 연습을 할 수 있는 재미있는 놀이터가 있습니다.</li>
+        </ul>
+      </div>
+      <button class="btn btn-primary btn-large font-large" onclick="closeHelpModal()">설명서 닫기 ➔</button>
+    </div>
+  </div>
+
+  <!-- 인지능력 게임 성공 축하 모달 -->
+  <div id="gameSuccessModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card text-center success-card">
+      <div class="success-emoji">🎉 🥳 👏</div>
+      <h2>참 잘하셨어요!</h2>
+      <p class="font-large highlight-text">카드를 모두 맞추셨습니다!</p>
+      <p class="font-medium text-muted">집중력과 기억력이 훌륭하십니다. 뇌세포가 더욱 건강하고 젊어졌습니다!</p>
+      <button class="btn btn-secondary btn-large font-large" onclick="restartMemoryGame(); closeSuccessModal();">한 번 더 하기 🔄</button>
+      <button class="btn btn-primary btn-large font-large" onclick="closeSuccessModal()">창 닫기 ➔</button>
+    </div>
+  </div>
+
+  <!-- 상단 헤더 & 접근성 컨트롤 바 -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="#" class="brand-logo" aria-label="실버 배움터 홈으로 이동">
+        <span class="logo-emoji">🌸</span>
+        <span class="logo-text">실버 배움터</span>
+      </a>
+
+      <!-- 어르신 맞춤형 접근성 조절 도구 모음 -->
+      <div class="accessibility-suite" role="region" aria-label="웹 접근성 조절 도구">
+        <!-- 글씨 크기 조절기 -->
+        <div class="control-group">
+          <span class="control-label font-medium">글씨 조절</span>
+          <button onclick="changeFontSize('small')" class="btn-text-ctrl" aria-label="글씨 작게">A-</button>
+          <button onclick="changeFontSize('normal')" class="btn-text-ctrl active" id="btnNormalFont" aria-label="기본 크기">A</button>
+          <button onclick="changeFontSize('large')" class="btn-text-ctrl" aria-label="글씨 크게">A+</button>
+        </div>
+
+        <!-- 화면 대비 스위치 -->
+        <div class="control-group">
+          <button onclick="toggleContrastMode()" id="contrastBtn" class="btn-contrast-ctrl" aria-label="고대비 어두운 화면 켜기">
+            <span class="icon">🌓</span> <span class="btn-label font-medium">고대비 화면</span>
+          </button>
+        </div>
+
+        <!-- 쉬운 설명서 열기 -->
+        <div class="control-group">
+          <button onclick="openHelpModal()" class="btn-help-ctrl" aria-label="홈페이지 쉬운 설명서 열기">
+            <span class="icon">❓</span> <span class="btn-label font-medium">쉬운 설명서</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 히어로 섹션 (실버 배움터) -->
+  <section class="hero-section" id="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="title-with-tts">
+          <h1 id="heroTitle">실버 배움터 - 함께 성장하는 즐거움</h1>
+          <button onclick="speakText('실버 배움터 - 함께 성장하는 즐거움. 어르신들의 두뇌 건강, 스마트폰 활용, 활력 넘치는 일상, 문화 취미까지! 60대에서 80대 눈높이에 맞춘 쉽고 즐거운 평생 배움터로 여러분을 초대합니다.')" class="btn-tts" aria-label="제목과 설명 음성으로 듣기">
+            🔊 소리로 듣기
+          </button>
+        </div>
+        <p class="hero-desc font-large">
+          어르신들의 두뇌 건강, 스마트폰 활용, 활력 넘치는 일상, 문화 취미까지!<br>
+          60~80대 눈높이에 맞춘 쉽고 즐거운 평생 배움터로 여러분을 초대합니다.
+        </p>
+        <div class="hero-actions">
+          <a href="#programs" class="btn btn-primary btn-xlarge font-large pulse-animation">
+            🏫 교육 프로그램 알아보기 ➔
+          </a>
+          <a href="#experience" class="btn btn-secondary btn-xlarge font-large">
+            🎮 두뇌 게임 해보기
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="image-wrapper">
+          <img src="assets/silver_hero.png" alt="따뜻한 정원을 배경으로, 미소를 지으며 책과 노트북으로 함께 공부하는 행복한 어르신들의 모습" class="hero-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4대 핵심 교육 프로그램 섹션 -->
+  <section class="programs-section" id="programs">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <div class="header-tts-wrap">
+          <h2 id="programsTitle">어르신들을 위한 4대 맞춤형 평생학습</h2>
+          <button onclick="speakText('어르신들을 위한 4대 맞춤형 평생학습 프로그램. 인지교육, 스마트교육, 행동교육, 바이브문화교육으로 즐겁고 건강한 삶을 누려보세요.')" class="btn-tts" aria-label="프로그램 소개 음성으로 듣기">
+            🔊 소리로 듣기
+          </button>
+        </div>
+        <p class="section-subtitle font-large">배우는 기쁨, 나누는 행복! 6080 맞춤식 엄선 프로그램입니다.</p>
+      </div>
+
+      <!-- 그리드 레이아웃 -->
+      <div class="programs-grid">
+        
+        <!-- 카드 1: 인지교육 -->
+        <article class="program-card">
+          <div class="card-image-wrap">
+            <img src="assets/silver_cognitive.png" alt="안경을 쓰신 한 인자한 어르신이 미소를 머금은 채 태블릿 PC로 재미있는 기억력 퍼즐을 푸는 모습">
+            <span class="card-badge bg-mint">뇌 건강</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-wrap">
+              <h3>뇌 건강 인지 능력 강화</h3>
+              <button onclick="speakText('뇌 건강 인지 능력 강화 인지교육. 재미있는 두뇌 퀴즈와 퍼즐 맞추기, 집중력, 기억력, 논리력 향상 훈련, 치매 예방 및 인지 능력 활성화 케어.')" class="btn-tts-sm" aria-label="뇌 건강 프로그램 설명 소리로 듣기">🔊</button>
+            </div>
+            <ul class="card-features font-medium">
+              <li>🧩 <strong>재미있는 두뇌 퀴즈</strong>와 퍼즐 맞추기</li>
+              <li>🔍 <strong>집중력, 기억력, 논리력</strong> 향상 훈련</li>
+              <li>💬 <strong>치매 예방</strong> 및 인지 능력 활성화 케어</li>
+            </ul>
+            <div class="card-footer">
+              <a href="#experience" class="btn btn-mint btn-full font-medium" onclick="scrollToExperience('memory')">
+                🎮 '두뇌 생생' 카드게임 체험 ➔
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 카드 2: 스마트교육 -->
+        <article class="program-card">
+          <div class="card-image-wrap">
+            <img src="assets/silver_smart.png" alt="어르신이 Smart Life 앱 화면이 크게 띄워진 대형 화면을 손가락으로 가볍게 터치하며 즐겁게 디지털 사용법을 교육받는 모습">
+            <span class="card-badge bg-orange">디지털</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-wrap">
+              <h3>스마트 디지털 리터러시</h3>
+              <button onclick="speakText('스마트 디지털 리터러시 스마트교육. 스마트폰 기초 및 카카오톡 문자 보내기, 식당 음식 키오스크 주문 및 기차표 온라인 예매하기, 보이스피싱 안심 예방 및 보안 교육.')" class="btn-tts-sm" aria-label="디지털 프로그램 설명 소리로 듣기">🔊</button>
+            </div>
+            <ul class="card-features font-medium">
+              <li>📱 <strong>스마트폰 기초</strong> 및 카카오톡 문자 보내기</li>
+              <li>🛍️ <strong>키오스크 주문</strong> 및 기차표 편리하게 예매하기</li>
+              <li>📞 <strong>보이스피싱 안심 예방</strong> 및 생활 보안 수칙</li>
+            </ul>
+            <div class="card-footer">
+              <a href="#experience" class="btn btn-orange btn-full font-medium" onclick="scrollToExperience('smartphone')">
+                📱 '스마트 라이프' 메시지 연습 ➔
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 카드 3: 행동교육 -->
+        <article class="program-card">
+          <div class="card-image-wrap">
+            <img src="assets/silver_behavior.png" alt="싱그러운 초록 정원에서 전문 건강 강사와 어르신들이 밝고 생기발랄하게 고무 저항 운동 밴드를 활용해 팔다리 야외 스트레칭을 하고 있는 모습">
+            <span class="card-badge bg-green">신체 건강</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-wrap">
+              <h3>생활 행동 & 건강 개선</h3>
+              <button onclick="speakText('생활 행동 및 건강 개선 행동교육. 무릎과 허리가 편안한 저항 밴드 스트레칭, 안전한 실버 전용 야외 걷기 및 신체 균형 운동, 매일 활력 넘치는 건강 식습관 및 생활 습관.')" class="btn-tts-sm" aria-label="생활 행동 프로그램 설명 소리로 듣기">🔊</button>
+            </div>
+            <ul class="card-features font-medium">
+              <li>🧘 <strong>관절이 편안한</strong> 저항 밴드 야외 스트레칭</li>
+              <li>🚶 <strong>실버 전용 올바른 걷기</strong> 및 신체 균형 강화</li>
+              <li>🍏 <strong>매일 활력 넘치는</strong> 바른 식습관 및 건강 생활 루틴</li>
+            </ul>
+            <div class="card-footer">
+              <a href="#contact" class="btn btn-green btn-full font-medium">
+                📞 건강 프로그램 대면 무료 신청 ➔
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 카드 4: 바이브교육 -->
+        <article class="program-card">
+          <div class="card-image-wrap">
+            <img src="assets/silver_vibe.png" alt="따사로운 햇살 아래 정원에서 어르신들이 도란도란 모여 통기타를 함께 연주하고 이젤에 마음을 그리는 힐링 문화 예술 공유 모임의 평화로운 모습">
+            <span class="card-badge bg-vibe">감성 문화</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-wrap">
+              <h3>인생 바이브 & 감성 문화</h3>
+              <button onclick="speakText('인생 바이브 및 감성 문화 바이브교육. 정겨운 추억 음악과 함께하는 통기타 및 우쿨렐레 연주, 고운 빛깔로 마음을 치유하는 감성 미술 드로잉교실, 나의 소중한 인생 이야기를 나누는 자서전 쓰기.')" class="btn-tts-sm" aria-label="감성 문화 프로그램 설명 소리로 듣기">🔊</button>
+            </div>
+            <ul class="card-features font-medium">
+              <li>🎸 <strong>정겨운 추억 음악</strong>과 함께하는 기타 연주 교실</li>
+              <li>🎨 <strong>마음을 치유하는</strong> 감성 수채화 미술 클래스</li>
+              <li>🌸 <strong>나만의 소중한 인생</strong>을 돌아보는 자서전 쓰기</li>
+            </ul>
+            <div class="card-footer">
+              <a href="#contact" class="btn btn-vibe btn-full font-medium">
+                🎨 예술 교실 소모임 구경하기 ➔
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 🎮 체험형 놀이터 (Interactive Experience Zone) -->
+  <section class="experience-section" id="experience">
+    <div class="section-container">
+      <div class="section-header text-center">
+        <div class="header-tts-wrap">
+          <h2 id="experienceTitle">🎮 어르신을 위한 즐거운 체험 놀이터</h2>
+          <button onclick="speakText('어르신을 위한 즐거운 체험 놀이터. 두뇌 건강에 좋은 카드 짝 맞추기 기억력 게임과 스마트폰 전송을 손쉽게 연습하는 메시지 연습기입니다. 직접 터치하고 클릭해서 실행해 보세요.')" class="btn-tts" aria-label="체험 놀이터 설명 소리로 듣기">
+            🔊 소리로 듣기
+          </button>
+        </div>
+        <p class="section-subtitle font-large">재미있는 두뇌 게임과 편리한 스마트폰 문자 보내기 연습을 직접 손으로 터치하여 체험해 보세요!</p>
+      </div>
+
+      <div class="experience-grid">
+        
+        <!-- 체험 1: 기억력 카드 맞추기 -->
+        <div class="exp-card" id="memory-game-section">
+          <div class="exp-header bg-mint-gradient">
+            <h3>🧠 '두뇌 생생' 카드 짝 맞추기</h3>
+            <span class="exp-badge">기억력 건강</span>
+          </div>
+          <div class="exp-body text-center">
+            <p class="font-medium text-dark mb-4">카드를 눌러 뒤집고, <strong>같은 짝의 이모티콘 카드</strong>를 연달아 맞추면 머리가 시원해집니다!</p>
+            
+            <!-- 게임 스코어 및 컨트롤 -->
+            <div class="game-controls">
+              <span class="font-large">성공 횟수: <strong id="flipScore" class="color-mint">0</strong> / 4</span>
+              <button onclick="restartMemoryGame()" class="btn btn-outline font-medium">🔄 처음부터 다시</button>
+            </div>
+
+            <!-- 카드 게임 보드 -->
+            <div class="card-board" id="cardBoard" role="grid" aria-label="기억력 카드 게임 보드">
+              <!-- 카드는 JS로 동적으로 생성됩니다. -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 체험 2: 스마트폰 메시지 시뮬레이터 -->
+        <div class="exp-card" id="smartphone-section">
+          <div class="exp-header bg-orange-gradient">
+            <h3>📱 '스마트 라이프' 메시지 연습기</h3>
+            <span class="exp-badge">스마트폰 정복</span>
+          </div>
+          <div class="exp-body">
+            <p class="font-medium text-center text-dark mb-4">화면의 친절한 지시에 맞춰 차근차근 누르면 **자녀에게 문자 메시지 보내기**를 마스터할 수 있습니다!</p>
+            
+            <div class="smartphone-simulator-container">
+              <!-- 스마트폰 모양 하우징 -->
+              <div class="phone-frame">
+                <div class="phone-speaker"></div>
+                <div class="phone-screen">
+                  
+                  <!-- 스마트폰 헤더 -->
+                  <div class="phone-top-bar">
+                    <span class="phone-time">오후 2:00</span>
+                    <span class="phone-signals">📶 🔋 100%</span>
+                  </div>
+
+                  <!-- 대화방 이름 -->
+                  <div class="phone-chat-header">
+                    <span class="back-arrow">◀</span>
+                    <span id="chatTargetName">가족 단체방 👨‍👩‍👧‍👦</span>
+                    <span class="menu-icon">☰</span>
+                  </div>
+
+                  <!-- 대화 내용 영역 -->
+                  <div class="phone-chat-body" id="phoneChatBody">
+                    <div class="chat-date font-small">2026년 6월 2일 화요일</div>
+                    <div class="chat-bubble received">
+                      <div class="bubble-sender">아들 🧑‍🦱</div>
+                      <div class="bubble-content font-medium">엄마, 오늘 날씨 좋은데 기분은 어떠세요? 😊</div>
+                    </div>
+                  </div>
+
+                  <!-- 안내 미션 지시문 -->
+                  <div class="mission-box" id="missionBox">
+                    <div class="mission-title font-medium">💡 미션 (1단계)</div>
+                    <div class="mission-text font-large highlight-text" id="missionText">아들의 메시지에 답변하기 위해 [메시지 입력창]을 터치해 보세요.</div>
+                  </div>
+
+                  <!-- 인터랙티브 버튼 선택/입력 구역 -->
+                  <div class="phone-input-area" id="phoneInputArea">
+                    <!-- JS에 의해 단계별 인터랙션 버튼이 표시됩니다. -->
+                    <button class="phone-text-input font-medium" id="fakeInputBar" onclick="advancePhoneMission(1)">
+                      여기를 눌러 메시지를 입력하세요... ✍️
+                    </button>
+                  </div>
+
+                </div>
+                <div class="phone-home-btn" onclick="resetPhoneMission()"></div>
+              </div>
+
+              <!-- 연습기 제어 -->
+              <div class="sim-controls text-center mt-3">
+                <button onclick="resetPhoneMission()" class="btn btn-outline btn-full font-medium">🔄 처음부터 다시 연습하기</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 📞 간편 안심 상담 신청 (Quick Contact) -->
+  <section class="contact-section" id="contact">
+    <div class="section-container card-shadow">
+      <div class="contact-layout">
+        
+        <!-- 왼쪽 안내 글귀 -->
+        <div class="contact-info">
+          <div class="contact-tts-wrap">
+            <h2 id="contactTitle">📞 3초 간편 안심 상담 신청</h2>
+            <button onclick="speakText('3초 간편 안심 상담 신청. 복잡한 가입 없이 성함과 전화번호만 남겨주세요. 24시간 내에 복지 상담사가 안전하게 전화를 드립니다. 자녀분들의 대리 상담 신청도 환영합니다.')" class="btn-tts" aria-label="상담 신청 안내 목소리로 듣기">
+              🔊 소리로 듣기
+            </button>
+          </div>
+          <p class="font-large text-dark mb-4 mt-3 leading-relaxed">
+            복잡한 회원가입이나 긴 서류 작성은 전혀 필요 없습니다!<br>
+            <strong>성함</strong>과 <strong>전화번호</strong>만 큼직하게 남겨주시면, 우리의 마음 따뜻한 배움 지도사가 24시간 이내에 직접 편안하게 전화로 설명해 드립니다.
+          </p>
+          <div class="badge-row font-medium">
+            <span class="contact-badge-item">🔒 안심 개인정보 보호</span>
+            <span class="contact-badge-item">🤝 자녀 대리 신청 가능</span>
+            <span class="contact-badge-item">☕ 친절한 1:1 맞춤 설명</span>
+          </div>
+        </div>
+
+        <!-- 오른쪽 입력 폼 -->
+        <div class="contact-form-card">
+          <form id="quickContactForm" onsubmit="handleContactSubmit(event)">
+            
+            <div class="form-group">
+              <label for="userName" class="font-large">1. 어르신의 성함 (또는 자녀분 이름)</label>
+              <input type="text" id="userName" name="userName" required class="input-large font-large" placeholder="예: 홍길동 (자녀 신청 시 '홍길동 자녀')">
+            </div>
+
+            <div class="form-group">
+              <label for="userPhone" class="font-large">2. 전화를 받으실 연락처</label>
+              <input type="tel" id="userPhone" name="userPhone" required class="input-large font-large" placeholder="예: 010-1234-5678">
+            </div>
+
+            <!-- 안심 서약 -->
+            <div class="privacy-agreement-box">
+              <label class="checkbox-container font-medium">
+                <input type="checkbox" id="privacyAgree" required checked>
+                <span class="checkmark"></span>
+                <strong>[안심 서약]</strong> 입력해주신 전화번호는 상담 연락용으로만 안전하게 사용하고, 통화 후 즉시 파기합니다. 이에 동의합니다. (필수)
+              </label>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <button type="submit" class="btn btn-primary btn-xlarge font-large btn-full mt-4 pulse-animation">
+              📞 무료 친절 상담 전화 신청하기 ➔
+            </button>
+
+          </form>
+          
+          <!-- 성공 안내 메시지 -->
+          <div id="contactSuccessMsg" class="contact-success-box text-center d-none">
+            <span class="success-check">✔️</span>
+            <h3 class="font-large color-mint">상담 신청이 완료되었습니다!</h3>
+            <p class="font-medium text-muted mt-2">입력해주신 연락처로 따뜻하고 친절하게 곧 전화드리겠습니다.<br>감사합니다. 행복한 하루 되세요! 🌸</p>
+            <button onclick="resetContactForm()" class="btn btn-outline mt-3 font-medium">새로운 상담 신청하기</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 (Footer) -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-emoji">🌸</span> <span class="logo-text">실버 배움터</span>
+          <p class="font-medium text-muted mt-2">어르신들의 꿈과 행복을 응원하는 고품격 맞춤 평생학습 공간</p>
+        </div>
+        <div class="footer-call">
+          <span class="call-title font-medium">무료 상담 및 간편 전화 신청</span>
+          <a href="tel:1588-0000" class="call-number font-xlarge" aria-label="1 5 8 8 0 0 0 0 어르신 전용 무료 상담 전화 걸기">
+            ☎️ 1588-0000
+          </a>
+          <span class="call-sub font-small">평일 오전 9시 ~ 오후 6시 (토/일요일/공휴일은 쉽니다)</span>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom font-small text-muted">
+        <p>상호명: (주)실버배움터 | 대표이사: 김배움 | 주소: 서울특별시 실버구 행복동 배움길 77 (행복빌딩 3층)</p>
+        <p>사업자등록번호: 123-45-67890 | 통신판매업신고: 제 2026-서울실버-0123호</p>
+        <p class="mt-3">© 2026 실버 배움터. 모든 권리는 당사에 있으며, 어르신들의 더 밝고 활기찬 내일을 위해 헌신합니다.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- 💬 말벗 도우미 챗봇 위젯 -->
+  <div class="chatbot-wrapper" id="chatbotWrapper">
+    
+    <!-- 챗봇 플로팅 버튼 -->
+    <button class="chatbot-toggle-btn pulse-animation" onclick="toggleChatbot()" aria-label="배움 말벗 챗봇 열기">
+      <span class="chat-avatar">👵</span>
+      <span class="chat-pulse-text font-small">말벗 도우미</span>
+    </button>
+
+    <!-- 챗봇 대화창 -->
+    <div class="chatbot-window card-shadow" id="chatbotWindow">
+      
+      <!-- 챗봇 헤더 -->
+      <div class="chatbot-header">
+        <div class="chatbot-avatar-status">
+          <span class="avatar-large">👵</span>
+          <div class="status-texts">
+            <span class="guide-name font-medium">따뜻한 배움 도우미</span>
+            <span class="status-online font-small">● 어르신을 위해 대기중</span>
+          </div>
+        </div>
+        <button onclick="toggleChatbot()" class="btn-close-chat" aria-label="챗봇 닫기">✖</button>
+      </div>
+
+      <!-- 챗봇 대화 메시지 영역 -->
+      <div class="chatbot-body" id="chatbotMessages">
+        <div class="chat-bubble received">
+          <div class="bubble-sender">배움 도우미 👵</div>
+          <div class="bubble-content font-medium">
+            반갑습니다, 어르신! 무엇이든 물어보세요.<br>
+            제가 아주 쉽고 친절하게 알려드릴게요. 😊
+          </div>
+        </div>
+      </div>
+
+      <!-- 챗봇 퀵 버튼 영역 -->
+      <div class="chatbot-quick-actions" id="chatbotQuickActions">
+        <button onclick="handleChatbotQuery(1, '🙋 회원가입은 어떻게 하나요?')" class="btn-quick font-medium">🙋 회원가입 방법</button>
+        <button onclick="handleChatbotQuery(2, '💵 수업을 들으려면 돈이 드나요?')" class="btn-quick font-medium">💵 수업 비용</button>
+        <button onclick="handleChatbotQuery(3, '🎒 수업 준비물은 무엇인가요?')" class="btn-quick font-medium">🎒 공부 준비물</button>
+        <button onclick="handleChatbotQuery(4, '📞 복잡해서 그런데 바로 전화할래요')" class="btn-quick font-medium color-orange">📞 바로 전화 상담</button>
+      </div>
+
+      <!-- 챗봇 안내 하단 바 -->
+      <div class="chatbot-footer font-small text-muted text-center">
+        이 대화창은 어르신을 돕기 위한 인공지능 배움 말벗입니다.
+      </div>
+
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

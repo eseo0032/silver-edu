@@ -1,0 +1,1652 @@
+/* ==========================================================================
+   실버 배움터 (Silver Academy) - 고품격 맞춤형 디자인 시스템
+   ========================================================================== */
+
+/* 1. 디자인 시스템 토큰 및 변수 선언 */
+:root {
+  /* HSL 기반 핵심 색상 */
+  --color-mint: hsl(170, 74%, 41%);
+  --color-mint-dark: hsl(170, 74%, 32%);
+  --color-mint-light: hsl(170, 74%, 93%);
+  --color-mint-glow: rgba(27, 180, 154, 0.15);
+
+  --color-orange: hsl(16, 100%, 64%);
+  --color-orange-dark: hsl(16, 90%, 55%);
+  --color-orange-light: hsl(16, 100%, 94%);
+
+  --color-beige: hsl(38, 43%, 97%);
+  --color-beige-dark: hsl(38, 30%, 90%);
+
+  /* 보조 카테고리 태그 색상 */
+  --color-green-tag: hsl(136, 53%, 43%);
+  --color-green-light: hsl(136, 53%, 94%);
+  
+  --color-vibe-purple: hsl(282, 54%, 48%);
+  --color-vibe-light: hsl(282, 54%, 95%);
+
+  /* 기본 뉴트럴 색상 */
+  --color-bg-light: #fbf8f3;
+  --color-text-dark: #2d3748;
+  --color-text-muted: #5e6c84;
+  --color-border: #e2e8f0;
+  --color-white: #ffffff;
+  
+  /* 그림자 및 둥글기 */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-round: 50px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 25px rgba(45, 55, 72, 0.08);
+  --shadow-lg: 0 20px 40px rgba(45, 55, 72, 0.12);
+  
+  /* 반응형 폰트 크기 조절을 위한 기본 배율 */
+  --font-scale: 1.0;
+}
+
+/* 2. 전역 리셋 및 접근성 지원 기본 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: calc(16px * var(--font-scale));
+  transition: font-size 0.2s ease;
+}
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 어르신 접근성을 위한 문단 여백 및 가독성 확보 */
+p, li {
+  letter-spacing: -0.02em;
+}
+
+/* 글자 크기 프리셋 */
+.font-small { font-size: 0.9rem; }
+.font-medium { font-size: 1.1rem; }
+.font-large { font-size: 1.3rem; }
+.font-xlarge { font-size: 1.6rem; }
+.font-bold { font-weight: 700; }
+
+strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+h1, h2, h3, h4 {
+  color: var(--color-text-dark);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+}
+
+/* 3. 공통 UI 컴포넌트 */
+
+/* 컨테이너 */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 버튼 스타일 (48px 이상 넓은 클릭 영역 확보) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-round);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  min-height: 52px;
+  padding: 12px 32px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--color-orange-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 122, 69, 0.3);
+  outline: none;
+}
+
+.btn-secondary {
+  background-color: var(--color-mint-light);
+  color: var(--color-mint-dark);
+  border: 2px solid var(--color-mint);
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(27, 180, 154, 0.25);
+  outline: none;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-border);
+  color: var(--color-text-dark);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-beige-dark);
+  border-color: var(--color-text-muted);
+}
+
+.btn-mint {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+}
+.btn-mint:hover {
+  background-color: var(--color-mint-dark);
+  transform: translateY(-2px);
+}
+
+.btn-orange {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+}
+.btn-orange:hover {
+  background-color: var(--color-orange-dark);
+  transform: translateY(-2px);
+}
+
+.btn-green {
+  background-color: var(--color-green-tag);
+  color: var(--color-white);
+}
+.btn-green:hover {
+  background-color: hsl(136, 53%, 33%);
+  transform: translateY(-2px);
+}
+
+.btn-vibe {
+  background-color: var(--color-vibe-purple);
+  color: var(--color-white);
+}
+.btn-vibe:hover {
+  background-color: hsl(282, 54%, 38%);
+  transform: translateY(-2px);
+}
+
+.btn-full {
+  width: 100%;
+  display: flex;
+}
+
+.btn-xlarge {
+  min-height: 60px;
+  padding: 16px 40px;
+  font-size: 1.25rem;
+}
+
+/* TTS 스피커 재생 버튼 */
+.btn-tts {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-mint);
+  color: var(--color-mint-dark);
+  border-radius: var(--radius-round);
+  padding: 6px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+.btn-tts:hover {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+.btn-tts-sm {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-mint);
+  color: var(--color-mint-dark);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.btn-tts-sm:hover {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+}
+
+/* 4. 헤더 & 조절 도구 레이아웃 */
+.main-header {
+  background-color: var(--color-white);
+  border-bottom: 2px solid var(--color-beige-dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.logo-emoji {
+  font-size: 2rem;
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--color-mint-dark);
+  letter-spacing: -0.04em;
+}
+
+/* 접근성 컨트롤 패널 */
+.accessibility-suite {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-bg-light);
+  padding: 4px 8px;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--color-border);
+}
+
+.control-label {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+.btn-text-ctrl {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dark);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.btn-text-ctrl:hover, .btn-text-ctrl.active {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  border-color: var(--color-mint);
+  transform: scale(1.1);
+}
+
+.btn-contrast-ctrl, .btn-help-ctrl {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dark);
+  padding: 6px 14px;
+  border-radius: var(--radius-round);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  transition: all 0.2s ease;
+}
+
+.btn-contrast-ctrl:hover {
+  background-color: var(--color-text-dark);
+  color: var(--color-white);
+  border-color: var(--color-text-dark);
+}
+
+.btn-help-ctrl {
+  background-color: var(--color-orange-light);
+  border-color: var(--color-orange);
+  color: var(--color-orange-dark);
+}
+.btn-help-ctrl:hover {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+}
+
+/* 5. 메인 히어로 섹션 */
+.hero-section {
+  padding: 80px 0;
+  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-light) 100%);
+  border-bottom: 2px solid var(--color-beige-dark);
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.title-with-tts {
+  margin-bottom: 24px;
+}
+
+.title-with-tts h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--color-text-dark);
+  display: inline;
+  vertical-align: middle;
+  line-height: 1.3;
+}
+
+.hero-desc {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid var(--color-white);
+  transition: transform 0.4s ease;
+}
+
+.image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 40px rgba(27, 180, 154, 0.15);
+  pointer-events: none;
+}
+
+.image-wrapper:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.hero-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 6. 4대 프로그램 카드 그리드 섹션 */
+.programs-section {
+  padding: 100px 0;
+  background-color: var(--color-bg-light);
+}
+
+.section-header {
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+}
+
+.header-tts-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.header-tts-wrap h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  display: inline;
+}
+
+.section-subtitle {
+  color: var(--color-text-muted);
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px;
+}
+
+.program-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.program-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-mint);
+}
+
+.card-image-wrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.program-card:hover .card-image-wrap img {
+  transform: scale(1.08);
+}
+
+.card-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 16px;
+  border-radius: var(--radius-round);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-white);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.bg-mint { background-color: var(--color-mint); }
+.bg-orange { background-color: var(--color-orange); }
+.bg-green { background-color: var(--color-green-tag); }
+.bg-vibe { background-color: var(--color-vibe-purple); }
+
+.card-body {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-title-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-title-wrap h3 {
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+}
+
+.card-features {
+  list-style: none;
+  color: var(--color-text-muted);
+  margin-bottom: 30px;
+  flex: 1;
+}
+
+.card-features li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.card-footer {
+  margin-top: auto;
+}
+
+/* 7. 체험형 놀이터 (Interactive Experience Zone) */
+.experience-section {
+  padding: 100px 0;
+  background-color: var(--color-white);
+  border-top: 2px solid var(--color-beige-dark);
+  border-bottom: 2px solid var(--color-beige-dark);
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.exp-card {
+  background-color: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--color-border);
+}
+
+.exp-header {
+  padding: 24px 32px;
+  color: var(--color-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exp-header h3 {
+  color: var(--color-white);
+  font-size: 1.4rem;
+}
+
+.bg-mint-gradient {
+  background: linear-gradient(135deg, var(--color-mint) 0%, var(--color-mint-dark) 100%);
+}
+
+.bg-orange-gradient {
+  background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-orange-dark) 100%);
+}
+
+.exp-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: var(--radius-round);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.exp-body {
+  padding: 32px;
+}
+
+/* 기억력 카드 게임 내부 디자인 */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  background-color: var(--color-white);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.color-mint {
+  color: var(--color-mint);
+  font-size: 1.5rem;
+}
+
+.card-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.game-card {
+  height: 90px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s, border-color 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+  border-color: var(--color-mint);
+}
+
+.game-card:focus {
+  outline: 3px solid var(--color-orange);
+}
+
+.game-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.game-card.matched {
+  transform: rotateY(180deg);
+  border-color: var(--color-green-tag);
+  background-color: var(--color-green-light);
+  cursor: default;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.card-back {
+  background-color: var(--color-mint-light);
+  color: var(--color-mint-dark);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.card-front {
+  background-color: var(--color-white);
+  transform: rotateY(180deg);
+  font-size: 2.2rem;
+}
+
+/* 스마트폰 시뮬레이터 디자인 */
+.smartphone-simulator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-frame {
+  width: 320px;
+  height: 540px;
+  background-color: #1a202c;
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg), 0 0 0 4px #4a5568;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-speaker {
+  width: 60px;
+  height: 6px;
+  background-color: #4a5568;
+  border-radius: 3px;
+  margin: 4px auto 8px auto;
+}
+
+.phone-screen {
+  flex: 1;
+  background-color: #f7fafc;
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #2d3748;
+}
+
+.phone-top-bar {
+  background-color: var(--color-beige-dark);
+  padding: 4px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.phone-chat-header {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.back-arrow {
+  cursor: pointer;
+}
+
+.phone-chat-body {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #eef2f5;
+}
+
+.chat-date {
+  align-self: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #4a5568;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  line-height: 1.4;
+}
+
+.chat-bubble.received {
+  align-self: flex-start;
+  background-color: var(--color-white);
+  border-top-left-radius: 4px;
+  color: var(--color-text-dark);
+}
+
+.chat-bubble.sent {
+  align-self: flex-end;
+  background-color: #ffeb3b; /* 카카오톡 스타일 노란색 */
+  color: #000000;
+  border-top-right-radius: 4px;
+}
+
+.bubble-sender {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.bubble-content {
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+
+/* 미션 박스 */
+.mission-box {
+  background-color: var(--color-white);
+  border-top: 2px solid var(--color-orange);
+  padding: 12px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+.mission-title {
+  color: var(--color-orange-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.mission-text {
+  font-size: 1rem;
+  color: var(--color-text-dark);
+  line-height: 1.4;
+}
+
+.highlight-text {
+  color: var(--color-orange-dark);
+  font-weight: 700;
+}
+
+/* 스마트폰 키패드 입력 영역 */
+.phone-input-area {
+  padding: 10px;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phone-text-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-muted);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.phone-text-input:hover {
+  background-color: var(--color-border);
+}
+
+.phone-action-btn {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+}
+
+.phone-action-btn:hover {
+  background-color: var(--color-mint-dark);
+}
+
+.phone-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.phone-choice-btn {
+  background-color: var(--color-bg-light);
+  border: 2px solid var(--color-border);
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.phone-choice-btn:hover {
+  background-color: var(--color-mint-light);
+  border-color: var(--color-mint);
+  color: var(--color-mint-dark);
+}
+
+.phone-home-btn {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #4a5568;
+  border-radius: 50%;
+  margin: 6px auto 0 auto;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.phone-home-btn:hover {
+  background-color: #2d3748;
+}
+
+/* 8. 간편 상담 신청 섹션 (Quick Contact) */
+.contact-section {
+  padding: 100px 0;
+  background-color: var(--color-bg-light);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 48px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+}
+
+.contact-tts-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-tts-wrap h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.badge-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.contact-badge-item {
+  background-color: var(--color-mint-light);
+  color: var(--color-mint-dark);
+  padding: 8px 16px;
+  border-radius: var(--radius-round);
+  font-weight: 700;
+  border: 1px solid var(--color-mint);
+}
+
+.contact-form-card {
+  background-color: var(--color-bg-light);
+  padding: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--color-text-dark);
+}
+
+.input-large {
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-large:focus {
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 4px var(--color-orange-light);
+}
+
+/* 안심 개인정보 동의 체크박스 */
+.privacy-agreement-box {
+  background-color: var(--color-white);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  margin-bottom: 20px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.5;
+  color: var(--color-text-dark);
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-bg-light);
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  background-color: var(--color-border);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--color-mint);
+  border-color: var(--color-mint);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* 상담 완료 박스 */
+.contact-success-box {
+  padding: 40px 10px;
+}
+
+.success-check {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.d-none {
+  display: none !important;
+}
+
+/* 9. 푸터 (Footer) */
+.main-footer {
+  background-color: var(--color-text-dark);
+  color: var(--color-white);
+  padding: 60px 0 40px 0;
+  border-top: 4px solid var(--color-mint);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.footer-brand .logo-text {
+  color: var(--color-white);
+}
+
+.footer-brand .text-muted {
+  color: #a0aec0 !important;
+}
+
+.footer-call {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255,255,255,0.05);
+  padding: 24px 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.1);
+  min-width: 280px;
+}
+
+.call-title {
+  color: var(--color-orange);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.call-number {
+  color: var(--color-white);
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.call-number:hover {
+  color: var(--color-orange);
+}
+
+.call-sub {
+  color: #a0aec0;
+}
+
+.footer-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 40px 0;
+}
+
+.footer-bottom {
+  line-height: 1.8;
+  color: #a0aec0;
+}
+
+.footer-bottom p {
+  margin-bottom: 6px;
+}
+
+/* 10. 💬 말벗 도우미 챗봇 위젯 */
+.chatbot-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.chatbot-toggle-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--color-mint);
+  border: 4px solid var(--color-white);
+  color: var(--color-white);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(27, 180, 154, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.chatbot-toggle-btn:hover {
+  transform: scale(1.08) rotate(3deg);
+  background-color: var(--color-mint-dark);
+}
+
+.chat-avatar {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.chat-pulse-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* 챗봇 대화창 */
+.chatbot-window {
+  position: absolute;
+  bottom: 95px;
+  right: 0;
+  width: 360px;
+  height: 520px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-mint);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chatbot-window.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.chatbot-header {
+  background-color: var(--color-mint);
+  padding: 16px 20px;
+  color: var(--color-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot-avatar-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-large {
+  font-size: 2rem;
+  background-color: rgba(255,255,255,0.2);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.status-online {
+  color: #b9f6ca;
+  font-weight: 700;
+}
+
+.btn-close-chat {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.chatbot-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--color-bg-light);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chatbot-quick-actions {
+  padding: 16px;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-quick {
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.btn-quick:hover {
+  background-color: var(--color-mint-light);
+  border-color: var(--color-mint);
+  color: var(--color-mint-dark);
+  transform: translateX(3px);
+}
+
+.btn-quick.color-orange {
+  border-color: var(--color-orange);
+  background-color: var(--color-orange-light);
+  color: var(--color-orange-dark);
+}
+
+.btn-quick.color-orange:hover {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+}
+
+.chatbot-footer {
+  padding: 8px;
+  background-color: var(--color-beige-dark);
+  font-size: 0.75rem;
+}
+
+/* 11. 홈페이지 쉬운 설명서 및 모달 공통 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(45, 55, 72, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 3px solid var(--color-mint);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1);
+}
+
+.modal-card h2 {
+  font-size: 1.8rem;
+  color: var(--color-mint-dark);
+  border-bottom: 2px solid var(--color-mint);
+  padding-bottom: 12px;
+}
+
+.modal-body {
+  line-height: 1.8;
+  color: var(--color-text-dark);
+}
+
+.help-list {
+  list-style: none;
+  margin-top: 16px;
+}
+
+.help-list li {
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.help-list li::before {
+  content: '🌸';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  font-size: 0.95rem;
+}
+
+.success-card h2 {
+  border-bottom: none;
+  font-size: 2.2rem;
+  color: var(--color-orange-dark);
+  margin-bottom: 8px;
+}
+
+.success-emoji {
+  font-size: 4rem;
+  margin-bottom: 12px;
+}
+
+.highlight-text {
+  color: var(--color-orange-dark);
+}
+
+/* 12. 어르신을 위한 애니메이션 효과 */
+.pulse-animation {
+  animation: softPulse 2s infinite;
+}
+
+@keyframes softPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 122, 69, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(255, 122, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 122, 69, 0);
+  }
+}
+
+/* 13. 🌓 고대비 모드 전용 스타일링 (중요) */
+body.high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast :not(.btn, .game-card, .phone-frame, .phone-screen, .checkmark) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* 고대비 모드 텍스트 밝은 황색/녹색 강조 */
+body.high-contrast h1, 
+body.high-contrast h2, 
+body.high-contrast h3,
+body.high-contrast strong,
+body.high-contrast .highlight-text,
+body.high-contrast .color-mint {
+  color: #ffff00 !important; /* 선명한 형광 황색 */
+}
+
+body.high-contrast a, 
+body.high-contrast button {
+  border: 3px solid #ffff00 !important;
+}
+
+body.high-contrast .btn-primary {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+body.high-contrast .btn-secondary,
+body.high-contrast .btn-mint,
+body.high-contrast .btn-orange,
+body.high-contrast .btn-green,
+body.high-contrast .btn-vibe {
+  background-color: #00ff00 !important; /* 형광 녹색 */
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border-color: #00ff00 !important;
+}
+
+body.high-contrast .btn-outline {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.high-contrast .program-card, 
+body.high-contrast .exp-card,
+body.high-contrast .contact-layout,
+body.high-contrast .contact-form-card,
+body.high-contrast .game-controls,
+body.high-contrast .chatbot-window,
+body.high-contrast .modal-card,
+body.high-contrast .privacy-agreement-box {
+  border: 3px solid #ffffff !important;
+}
+
+body.high-contrast .card-badge {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+body.high-contrast .game-card {
+  border: 3px solid #ffffff !important;
+  background-color: #333333 !important;
+}
+
+body.high-contrast .game-card.flipped {
+  border-color: #ffff00 !important;
+}
+
+body.high-contrast .game-card.matched {
+  border-color: #00ff00 !important;
+}
+
+body.high-contrast .card-back {
+  background-color: #222222 !important;
+  color: #ffff00 !important;
+}
+
+body.high-contrast .phone-chat-body {
+  background-color: #111111 !important;
+}
+
+body.high-contrast .chat-bubble.received {
+  background-color: #222222 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+body.high-contrast .chat-bubble.sent {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+body.high-contrast .checkmark {
+  border-color: #ffffff !important;
+}
+
+body.high-contrast input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #ffff00 !important;
+}
+
+body.high-contrast .input-large {
+  border-color: #ffffff !important;
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast .input-large:focus {
+  border-color: #ffff00 !important;
+}
+
+body.high-contrast img {
+  filter: grayscale(50%) contrast(150%);
+  border: 2px solid #ffffff;
+}
+
+/* 14. 반응형 레이아웃 미디어 쿼리 */
+
+/* 태블릿 (1024px 이하) */
+@media (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+  
+  .title-with-tts h1 {
+    font-size: 2.3rem;
+  }
+  
+  .programs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .experience-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .contact-layout {
+    grid-template-columns: 1fr;
+    padding: 32px;
+  }
+}
+
+/* 모바일 (768px 이하) */
+@media (max-width: 768px) {
+  html {
+    font-size: calc(15px * var(--font-scale));
+  }
+  
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .accessibility-suite {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-section {
+    padding: 40px 0;
+  }
+
+  .title-with-tts h1 {
+    font-size: 1.8rem;
+  }
+
+  .programs-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .chatbot-window {
+    width: calc(100vw - 40px);
+    right: -10px;
+  }
+  
+  .card-board {
+    max-width: 320px;
+    gap: 10px;
+  }
+  
+  .game-card {
+    height: 75px;
+  }
+}
