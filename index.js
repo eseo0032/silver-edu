@@ -1,23 +1,38 @@
 /* ==========================================================================
-   실버 배움터 (Silver Academy) - 맞춤형 인터랙션 스크립트
+   실버교육기관 루먼픽 (Lumanpick) - 맞춤형 인터랙션 스크립트
    ========================================================================== */
+
+// 교육 일지 전역 배열 선언
+let educationLogs = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   // 웹페이지 로드 시 초기 설정 실행
   initMemoryGame();
   resetPhoneMission();
+  initEducationLogs(); // [신규] 교육 일지 스토리지 엔진 초기화
   
   // 모달 외부 클릭 시 닫기 이벤트 등록
   window.onclick = function(event) {
     const helpModal = document.getElementById('helpModal');
     const successModal = document.getElementById('gameSuccessModal');
+    const adminPanel = document.getElementById('adminPanel');
     if (event.target === helpModal) {
       closeHelpModal();
     }
     if (event.target === successModal) {
       closeSuccessModal();
     }
+    if (event.target === adminPanel) {
+      toggleAdminMode();
+    }
   };
+
+  // 날짜 입력 칸 기본값 설정 (오늘 날짜)
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('logDate');
+  if (dateInput) {
+    dateInput.value = today;
+  }
 });
 
 /* ==========================================================================
@@ -32,7 +47,6 @@ function changeFontSize(size) {
   const htmlElement = document.documentElement;
   let scale = 1.0;
   
-  // 모든 텍스트 조절 버튼 비활성화
   const textBtns = document.querySelectorAll('.btn-text-ctrl');
   textBtns.forEach(btn => btn.classList.remove('active'));
   
@@ -47,10 +61,7 @@ function changeFontSize(size) {
     event.target.classList.add('active');
   }
   
-  // CSS 변수 갱신
   htmlElement.style.setProperty('--font-scale', scale);
-  
-  // 스크린리더 음성 피드백
   announceToScreenReader(`글자 크기가 ${size === 'small' ? '작게' : size === 'normal' ? '보통 크기로' : '크게'} 조절되었습니다.`);
 }
 
@@ -112,23 +123,19 @@ let currentUtterance = null;
  * @param {string} text - 읽어줄 한글 텍스트
  */
 function speakText(text) {
-  // 이미 재생 중이면 멈추기 (한 번 더 누르면 토글처럼 정지함)
   if (window.speechSynthesis.speaking) {
     window.speechSynthesis.cancel();
-    // 현재 말하던 내용을 다시 누른 경우 완전 멈추고 종료
     if (currentUtterance && currentUtterance.text === text) {
       currentUtterance = null;
       return;
     }
   }
 
-  // 어르신용이므로 천천히, 다정한 속도 설정 (0.8 ~ 0.85 배속)
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'ko-KR';
   utterance.rate = 0.82; 
   utterance.pitch = 1.0; 
 
-  // 한국어 목소리 설정 최적화
   const voices = window.speechSynthesis.getVoices();
   const koreanVoice = voices.find(voice => voice.lang.includes('ko-KR'));
   if (koreanVoice) {
@@ -141,7 +148,268 @@ function speakText(text) {
 
 
 /* ==========================================================================
-   3. 🧠 체험존 1: '두뇌 생생' 카드 매칭 게임 (Memory Game Engine)
+   3. [신규] ⚙️ 관리자 대시보드 및 교육 일지 스토리지 엔진 (Admin & CRUD)
+   ========================================================================== */
+
+// 5개 카테고리 매핑용 상수
+const categoryMeta = {
+  cognitive: { name: '🧠 인지향상교육', badgeClass: 'badge-cognitive' },
+  behavioral: { name: '🏃 행동발달교육', badgeClass: 'badge-behavioral' },
+  vibe: { name: '🎨 바이브향상교육', badgeClass: 'badge-vibe' },
+  psychological: { name: '💬 심리상담지원', badgeClass: 'badge-psychological' },
+  others: { name: '🌸 기타 영역', badgeClass: 'badge-others' }
+};
+
+/**
+ * 교육 일지 데이터를 초기화하고 적재합니다.
+ */
+function initEducationLogs() {
+  const localData = localStorage.getItem('luman_education_logs');
+  
+  if (localData) {
+    educationLogs = JSON.parse(localData);
+  } else {
+    // 최초 실행 시 기본 피드값 세팅 (Pre-seeding)
+    educationLogs = [
+      {
+        id: 1,
+        category: 'cognitive',
+        title: '두뇌 생생 기억력 훈련 및 이모티콘 맞추기 4회기',
+        date: '2026-06-02',
+        instructor: '이지혜 퍼실리테이터',
+        desc: '어르신 여덟 분과 함께 인지 강화 카드 뒤집기 실습 세션을 가졌습니다. 게임을 클리어할 때마다 다 함께 박수를 치며 기뻐하셨으며, 평소보다 놀라운 속도로 짝을 정확하게 맞추셨습니다.'
+      },
+      {
+        id: 2,
+        category: 'behavioral',
+        title: '야외 야생화 정원 탄성 밴드 관절 스트레칭',
+        date: '2026-06-01',
+        instructor: '김성호 신체지도 강사',
+        desc: '따뜻한 햇살 아래서 탄성 저항 고무 밴드를 활용해 어깨와 다리 스트레칭 밸런스 운동을 실시했습니다. 무릎 관절에 무리 없이 시원한 관절 이완을 도와 드렸고, 통증이 한결 유연해졌다며 어르신들이 크게 웃으셨습니다.'
+      },
+      {
+        id: 3,
+        category: 'psychological',
+        title: '정서 안심을 위한 1대1 차 한잔 마음 경청 진단',
+        date: '2026-05-30',
+        instructor: '최윤정 심리상담실장',
+        desc: '외로움과 정서적 고립감을 극복하기 위해 다도 힐링 미술 심리 진단을 가졌습니다. 어르신의 노년기 고민을 따뜻하게 경청하였으며, 마음이 한결 가벼워지고 후련하다는 다정한 소감을 나누어 주셨습니다.'
+      }
+    ];
+    localStorage.setItem('luman_education_logs', JSON.stringify(educationLogs));
+  }
+
+  // 화면 테이블 및 게시판 렌더링
+  renderAdminTable();
+  renderClientFeed('all');
+}
+
+/**
+ * 관리자 패널 화면을 토글합니다.
+ */
+function toggleAdminMode() {
+  const adminPanel = document.getElementById('adminPanel');
+  const toggleBtn = document.getElementById('adminToggleBtn');
+  const isHidden = adminPanel.classList.contains('d-none');
+  
+  if (isHidden) {
+    adminPanel.classList.remove('d-none');
+    toggleBtn.classList.add('active');
+    speakText("관리자 교육 일지 관리 창이 열렸습니다. 새로운 교육 내용을 등록하거나 삭제하실 수 있습니다.");
+    renderAdminTable();
+  } else {
+    adminPanel.classList.add('d-none');
+    toggleBtn.classList.remove('active');
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+  }
+}
+
+/**
+ * 관리자 테이블 목록을 렌더링합니다.
+ */
+function renderAdminTable() {
+  const tableBody = document.getElementById('adminLogTableBody');
+  if (!tableBody) return;
+
+  tableBody.innerHTML = '';
+
+  // 날짜 역순 정렬
+  const sortedLogs = [...educationLogs].sort((a, b) => b.date.localeCompare(a.date));
+
+  if (sortedLogs.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted font-medium">등록된 교육 일지가 없습니다.</td></tr>`;
+    return;
+  }
+
+  sortedLogs.forEach(log => {
+    const row = document.createElement('tr');
+    const catName = categoryMeta[log.category]?.name || log.category;
+    
+    row.innerHTML = `
+      <td class="font-medium">${catName}</td>
+      <td class="font-medium">${log.date}</td>
+      <td class="font-bold">${log.title}</td>
+      <td class="font-medium">${log.instructor}</td>
+      <td>
+        <button class="btn-delete-log" onclick="deleteEducationLog(${log.id})" aria-label="${log.title} 일지 삭제">삭제 ✖</button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+/**
+ * 클라이언트 게시판(피드 카드)을 카테고리에 맞춰 렌더링합니다.
+ * @param {string} filterCategory - 'all' 또는 특정 카테고리값
+ */
+function renderClientFeed(filterCategory = 'all') {
+  const feedGrid = document.getElementById('educationFeedGrid');
+  if (!feedGrid) return;
+
+  feedGrid.innerHTML = '';
+
+  // 날짜 역순 정렬
+  const sortedLogs = [...educationLogs].sort((a, b) => b.date.localeCompare(a.date));
+
+  // 필터링 적용
+  const filteredLogs = filterCategory === 'all' 
+    ? sortedLogs 
+    : sortedLogs.filter(log => log.category === filterCategory);
+
+  if (filteredLogs.length === 0) {
+    feedGrid.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 60px 20px;" class="text-center text-muted">
+        <span style="font-size: 3rem; display: block; margin-bottom: 16px;">🌸</span>
+        <p class="font-large">아직 등록된 ${categoryMeta[filterCategory]?.name || ''} 일지가 없습니다.</p>
+        <p class="font-medium text-muted mt-2">관리자 공간에서 첫 교육 일지를 자유롭게 작성해 보세요!</p>
+      </div>
+    `;
+    return;
+  }
+
+  filteredLogs.forEach(log => {
+    const card = document.createElement('article');
+    card.classList.add('feed-card');
+    card.setAttribute('role', 'article');
+    
+    const cat = categoryMeta[log.category] || { name: log.category, badgeClass: 'badge-others' };
+
+    card.innerHTML = `
+      <div class="feed-card-header font-small">
+        <span class="feed-card-badge ${cat.badgeClass}">${cat.name}</span>
+        <span class="feed-card-date">${log.date}</span>
+      </div>
+      <h3 class="feed-card-title">${log.title}</h3>
+      <p class="feed-card-desc font-medium">${log.desc}</p>
+      <div class="feed-card-footer font-medium">
+        <span class="feed-card-instructor">✍️ ${log.instructor}</span>
+        <button onclick="speakText('${log.title}. ${log.desc}')" class="btn-tts-sm" aria-label="일지 텍스트 목소리로 읽기">🔊</button>
+      </div>
+    `;
+
+    feedGrid.appendChild(card);
+  });
+}
+
+/**
+ * 클라이언트 게시판 카테고리 필터 스위칭
+ * @param {string} category 
+ */
+function filterEducationFeed(category) {
+  // 모든 탭 버튼 비활성화
+  const tabs = document.querySelectorAll('.btn-filter-tab');
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+
+  // 선택한 탭 활성화
+  const activeTab = document.getElementById(`tab-${category}`);
+  if (activeTab) {
+    activeTab.classList.add('active');
+    activeTab.setAttribute('aria-selected', 'true');
+  }
+
+  // 피드 재선언
+  renderClientFeed(category);
+  
+  const catKorean = category === 'all' ? '전체' : categoryMeta[category]?.name || '';
+  speakText(`${catKorean} 교육 일지만 정렬하여 보여드립니다.`);
+}
+
+/**
+ * 관리자 패널 새 일지 등록 폼 제출 핸들러 (Create)
+ */
+function handleLogSubmit(event) {
+  event.preventDefault();
+
+  const category = document.getElementById('logCategory').value;
+  const title = document.getElementById('logTitle').value.trim();
+  const date = document.getElementById('logDate').value;
+  const instructor = document.getElementById('logInstructor').value.trim();
+  const desc = document.getElementById('logDesc').value.trim();
+
+  if (!category || !title || !date || !instructor || !desc) {
+    alert("모든 입력 항목을 빠짐없이 채워주세요.");
+    return;
+  }
+
+  // 신규 일지 생성
+  const newLog = {
+    id: Date.now(), // 타임스탬프로 고유 ID 생성
+    category,
+    title,
+    date,
+    instructor,
+    desc
+  };
+
+  // 기존 스토리지 목록에 추가 후 동기화
+  educationLogs.push(newLog);
+  localStorage.setItem('luman_education_logs', JSON.stringify(educationLogs));
+
+  // 화면 재렌더링
+  renderAdminTable();
+  renderClientFeed('all');
+
+  // 필터 전체 탭으로 동기화
+  filterEducationFeed('all');
+
+  // 폼 리셋
+  document.getElementById('adminLogForm').reset();
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('logDate').value = today;
+
+  speakText("새로운 루먼픽 교육 일지가 메인 게시판에 실시간으로 성공적으로 게시되었습니다.");
+}
+
+/**
+ * 등록된 교육 일지 삭제 핸들러 (Delete)
+ * @param {number} id 
+ */
+function deleteEducationLog(id) {
+  const targetIndex = educationLogs.findIndex(log => log.id === id);
+  if (targetIndex === -1) return;
+
+  const targetTitle = educationLogs[targetIndex].title;
+
+  if (confirm(`[삭제 경고]\n"${targetTitle}"\n해당 교육 일지를 메인 게시판에서 영구 삭제하시겠습니까?`)) {
+    educationLogs.splice(targetIndex, 1);
+    localStorage.setItem('luman_education_logs', JSON.stringify(educationLogs));
+    
+    renderAdminTable();
+    renderClientFeed('all');
+    filterEducationFeed('all');
+    
+    speakText("선택하신 교육 일지가 목록에서 정상적으로 삭제되었습니다.");
+  }
+}
+
+
+/* ==========================================================================
+   4. 🧠 체험존 1: '두뇌 생생' 카드 매칭 게임 (Memory Game Engine)
    ========================================================================== */
 
 const memoryEmojis = ['🍎', '🌟', '🧡', '🎸', '🍎', '🌟', '🧡', '🎸'];
@@ -149,25 +417,22 @@ let flippedCards = [];
 let matchedPairs = 0;
 let isBoardLocked = false;
 
-/**
- * 인지능력 카드 매칭 보드 초기화
- */
 function initMemoryGame() {
   const cardBoard = document.getElementById('cardBoard');
+  if (!cardBoard) return;
+  
   cardBoard.innerHTML = '';
   flippedCards = [];
   matchedPairs = 0;
   isBoardLocked = false;
   document.getElementById('flipScore').textContent = '0';
 
-  // 카드 랜덤하게 섞기 (피셔-예이츠 알고리즘)
   const shuffled = [...memoryEmojis];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
 
-  // 카드 돔 요소 생성
   shuffled.forEach((emoji, index) => {
     const card = document.createElement('button');
     card.classList.add('game-card');
@@ -186,35 +451,25 @@ function initMemoryGame() {
   });
 }
 
-/**
- * 카드를 클릭하여 뒤집었을 때 동작하는 메인 핸들러
- */
 function handleCardFlip(card) {
-  // 동작 방지 예외 처리
   if (isBoardLocked || card.classList.contains('flipped') || card.classList.contains('matched')) {
     return;
   }
 
-  // 카드 뒤집기 애니메이션 적용
   card.classList.add('flipped');
   card.setAttribute('aria-label', `카드 공개: ${card.dataset.emoji}`);
   flippedCards.push(card);
 
-  // 2개의 카드가 선택되었을 때 일치 여부 비교
   if (flippedCards.length === 2) {
     checkCardMatch();
   }
 }
 
-/**
- * 뒤집힌 두 장의 카드가 일치하는지 비교합니다.
- */
 function checkCardMatch() {
   isBoardLocked = true;
   const [card1, card2] = flippedCards;
 
   if (card1.dataset.emoji === card2.dataset.emoji) {
-    // 짝이 맞는 경우
     setTimeout(() => {
       card1.classList.add('matched');
       card2.classList.add('matched');
@@ -226,16 +481,13 @@ function checkCardMatch() {
       flippedCards = [];
       isBoardLocked = false;
 
-      // 축하 피드백 음성 안내
       speakText("맞췄습니다! 참 잘하셨어요.");
 
-      // 전체 다 맞춘 경우 (총 4쌍)
       if (matchedPairs === 4) {
         setTimeout(showSuccessModal, 600);
       }
     }, 400);
   } else {
-    // 짝이 맞지 않는 경우 다시 원래대로 뒤집기
     setTimeout(() => {
       card1.classList.remove('flipped');
       card2.classList.remove('flipped');
@@ -247,9 +499,6 @@ function checkCardMatch() {
   }
 }
 
-/**
- * 카드 게임을 다시 처음부터 리셋합니다.
- */
 function restartMemoryGame() {
   initMemoryGame();
   speakText("두뇌 게임 카드가 새롭게 섞였습니다. 다시 시작해 보세요!");
@@ -257,41 +506,35 @@ function restartMemoryGame() {
 
 
 /* ==========================================================================
-   4. 📱 체험존 2: '스마트폰 메시지' 연습기 (Smartphone Simulator)
+   5. 📱 체험존 2: '스마트폰 메시지' 연습기 (Smartphone Simulator)
    ========================================================================== */
 
 let phoneMissionStep = 1;
-const testMessageOptions = ['엄마도 보고 싶다! 🧡', '밥 든든하게 먹으렴 🍚', '오늘 날씨 좋네 ☀️'];
+const testMessageOptions = ['오늘 루먼픽 최고였단다! 🧡', '밥 든든하게 먹으렴 🍚', '오늘 날씨 좋네 ☀️'];
 let selectedMessage = '';
 
-/**
- * 스마트폰 미션을 초기 상태로 리셋합니다.
- */
 function resetPhoneMission() {
   phoneMissionStep = 1;
   selectedMessage = '';
   
-  // 채팅창 내용 초기화 (기본 대화만 수록)
   const phoneChatBody = document.getElementById('phoneChatBody');
+  if (!phoneChatBody) return;
+  
   phoneChatBody.innerHTML = `
     <div class="chat-date font-small">2026년 6월 2일 화요일</div>
     <div class="chat-bubble received">
       <div class="bubble-sender">아들 🧑‍🦱</div>
-      <div class="bubble-content font-medium">엄마, 오늘 날씨 좋은데 기분은 어떠세요? 😊</div>
+      <div class="bubble-content font-medium">엄마, 오늘 루먼픽 학교 첫날인데 공부는 어떠셨어요? 😊</div>
     </div>
   `;
 
-  // 미션 및 입력창 초기화
   updatePhoneMissionUI();
 }
 
-/**
- * 현재 단계에 맞춰 스마트폰 시뮬레이터의 UI 구조를 업데이트합니다.
- */
 function updatePhoneMissionUI() {
   const missionBox = document.getElementById('missionBox');
-  const missionText = document.getElementById('missionText');
   const phoneInputArea = document.getElementById('phoneInputArea');
+  if (!missionBox || !phoneInputArea) return;
 
   if (phoneMissionStep === 1) {
     missionBox.innerHTML = `
@@ -310,7 +553,6 @@ function updatePhoneMissionUI() {
       <div class="mission-text font-large highlight-text" id="missionText">자녀에게 보낼 가장 따뜻한 메시지 중 하나를 손가락으로 골라보세요!</div>
     `;
     
-    // 메시지 버튼 3개 렌더링
     let btnHtml = '<div class="phone-choice-grid">';
     testMessageOptions.forEach((option, idx) => {
       btnHtml += `<button class="phone-choice-btn font-medium" onclick="selectPhoneMessage('${option}')">${option}</button>`;
@@ -348,10 +590,6 @@ function updatePhoneMissionUI() {
   }
 }
 
-/**
- * 스마트폰 연습 단계 진행
- * @param {number} nextStep 
- */
 function advancePhoneMission(nextStep) {
   phoneMissionStep = nextStep;
   
@@ -360,7 +598,6 @@ function advancePhoneMission(nextStep) {
   }
   
   if (phoneMissionStep === 4) {
-    // 채팅창에 내 대화 말풍선 추가
     const phoneChatBody = document.getElementById('phoneChatBody');
     const myBubble = document.createElement('div');
     myBubble.classList.add('chat-bubble', 'sent');
@@ -369,21 +606,18 @@ function advancePhoneMission(nextStep) {
     `;
     phoneChatBody.appendChild(myBubble);
     
-    // 자녀의 즐거운 대답 풍선 추가 (0.6초 뒤 리액션)
     setTimeout(() => {
       const childReaction = document.createElement('div');
       childReaction.classList.add('chat-bubble', 'received');
       childReaction.innerHTML = `
         <div class="bubble-sender">아들 🧑‍🦱</div>
-        <div class="bubble-content font-medium">우와 엄마! 문자 너무 감사해요! 사랑해요!! 💕🥰</div>
+        <div class="bubble-content font-medium">우와 엄마! 문자 너무 감사해요! 루먼픽 학교 짱인데요! 💕🥰</div>
       `;
       phoneChatBody.appendChild(childReaction);
-      // 채팅창 스크롤 하단 고정
       phoneChatBody.scrollTop = phoneChatBody.scrollHeight;
       speakText("축하합니다! 스마트폰으로 문자 전송 연습을 성공적으로 마치셨습니다. 참 잘하셨어요!");
     }, 600);
 
-    // 스크롤 동기화
     setTimeout(() => {
       phoneChatBody.scrollTop = phoneChatBody.scrollHeight;
     }, 100);
@@ -392,10 +626,6 @@ function advancePhoneMission(nextStep) {
   updatePhoneMissionUI();
 }
 
-/**
- * 2단계에서 메시지를 선택했을 때 호출됩니다.
- * @param {string} message 
- */
 function selectPhoneMessage(message) {
   selectedMessage = message;
   speakText(`"${message}" 를 선택하셨습니다. 이제 전송 버튼을 눌러보세요.`);
@@ -404,69 +634,56 @@ function selectPhoneMessage(message) {
 
 
 /* ==========================================================================
-   5. 💬 말벗 도우미 챗봇 (Empathetic Senior-Friendly Chatbot)
+   6. 💬 말벗 도우미 챗봇 (Empathetic Senior-Friendly Chatbot)
    ========================================================================== */
 
-/**
- * 우측 하단의 챗봇 대화창을 열고 닫습니다.
- */
 function toggleChatbot() {
   const windowEl = document.getElementById('chatbotWindow');
   windowEl.classList.toggle('active');
   
   if (windowEl.classList.contains('active')) {
-    speakText("안녕하세요 어르신! 따뜻한 말벗 챗봇 도우미입니다. 궁금하신 내용을 아래 버튼에서 골라보세요.");
-    // 챗봇 대화방 하단 스크롤 동기화
+    speakText("안녕하세요 어르신! 루먼픽 말벗 챗봇 도우미입니다. 궁금하신 내용을 아래 버튼에서 골라보세요.");
     const msgBody = document.getElementById('chatbotMessages');
     msgBody.scrollTop = msgBody.scrollHeight;
   }
 }
 
-/**
- * 챗봇 질문 버튼 클릭 시 대화를 시뮬레이션합니다.
- * @param {number} type - 질문 항목 번호
- * @param {string} userQuestion - 유저가 클릭한 한글 질문
- */
 function handleChatbotQuery(type, userQuestion) {
   const messagesContainer = document.getElementById('chatbotMessages');
   
-  // 1. 유저 질문 추가
   const userBubble = document.createElement('div');
   userBubble.classList.add('chat-bubble', 'sent');
   userBubble.innerHTML = `<div class="bubble-content font-medium">${userQuestion}</div>`;
   messagesContainer.appendChild(userBubble);
   
-  // 챗봇의 빠른 터치 차단용
   const quickActions = document.getElementById('chatbotQuickActions');
   quickActions.style.pointerEvents = 'none';
   quickActions.style.opacity = '0.6';
 
-  // 즉각 스크롤
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-  // 2. 챗봇의 친절하고 상세한 어조의 대답 추가 (0.8초 후)
   setTimeout(() => {
     let chatbotAnswer = '';
     
     switch (type) {
-      case 1: // 회원가입
-        chatbotAnswer = `어르신, 저희 실버 배움터는 인터넷으로 귀찮고 복잡한 가입 신청서 작성을 전혀 시키지 않습니다!<br><br>
-        화면에 있는 📞 <strong>[간편 상담 신청]</strong>에 성함과 연락처만 적어주시거나, <strong>1588-0000</strong>으로 직접 전화를 걸어주시면 전문 배움 지도사들이 말로써 친절하게 가입 및 모든 접수를 도와드리니 걱정 마세요. 👵`;
+      case 1:
+        chatbotAnswer = `어르신, 저희 루먼픽은 어렵고 귀찮은 인터넷 가입 절차가 아예 없습니다!<br><br>
+        화면에 있는 📞 <strong>[간편 상담 신청]</strong>에 성함과 연락처만 적어주시거나, <strong>1588-0000</strong>으로 직접 전화를 걸어주시면 친절한 파트너들이 말로써 간단하게 가입을 전부 대행해 드리니 안심하세요. 👵`;
         break;
-      case 2: // 수업 비용
-        chatbotAnswer = `돈 걱정은 편안하게 접어두셔도 괜찮습니다!<br><br>
-        실버 배움터가 제공하는 스마트폰 기초, 생활 스트레칭, 치매 예방 인지 퍼즐 등 대부분의 기본 교육은 <strong>국가/구청 및 복지관의 전폭적인 지원을 받아 100% 무료</strong>로 마음껏 이용하실 수 있습니다. 🌸`;
+      case 2:
+        chatbotAnswer = `수업 비용은 너무 걱정 마세요!<br><br>
+        루먼픽의 5대 주요 교육 프로그램은 <strong>국가 지자체 및 시니어 교육 지원 기금의 전폭적인 후원을 받기 때문에 전액 100% 무료 강좌</strong>로 상당수 편성되어 운영 중입니다. 언제든 부담 없이 신청해 주세요! 🌸`;
         break;
-      case 3: // 공부 준비물
-        chatbotAnswer = `어르신께서 공부하러 오실 때 챙기실 준비물은 딱 하나, <strong>'새로운 배움을 즐기고자 하는 활기찬 마음'</strong>뿐입니다!<br><br>
-        공부에 필요한 연필, 종합 교재, 물감 세트와 스마트 교육용 태블릿 PC까지 모든 장비와 학용품은 저희 배움터 교실에 전부 든든하게 준비해두었답니다. 편하게 빈손으로 찾아와 차 한잔하며 시작하세요. 🍵`;
+      case 3:
+        chatbotAnswer = `가장 소중한 준비물은 딱 하나, <strong>'오늘 하루 즐겁게 배우겠다는 미소'</strong>뿐입니다!<br><br>
+        필기도구, 종이 교재, 인지 발달 퍼즐 교구와 교육용 디지털 스마트 기기까지 학습에 필요한 모든 용품은 루먼픽 강의실에 풍족하게 준비해 두었습니다. 가벼운 마음으로 빈손으로 찾아와 차 한잔하며 시작하시면 됩니다. 🍵`;
         break;
-      case 4: // 바로 전화
-        chatbotAnswer = `그렇지요! 글자를 누르는 것보다 친근하게 말로 나누는 목소리 상담이 최고입니다. 👍<br><br>
-        어르신 전용 무료 연락처 ☎️ <strong>1588-0000</strong> 으로 전화를 걸어주시면 대기 시간 없이 따뜻하고 친절한 상담원과 바로 연결됩니다. (스마트폰이시라면 화면 맨 아래의 <strong>[☎️ 1588-0000]</strong> 번호를 꾹 누르시면 즉시 전화 통화로 넘어갑니다.)`;
+      case 4:
+        chatbotAnswer = `역시 친근한 목소리로 말로 물어보는 1:1 상담이 가장 좋고 명확합니다! 👍<br><br>
+        루먼픽 직통 전화번호 ☎️ <strong>1588-0000</strong> 으로 전화를 걸어주시면 어르신 맞춤 상담사와 즉시 따뜻한 전화 통화가 연결됩니다. (스마트폰 사용자이시라면 화면 맨 아래에 위치한 전화번호를 꾹 터치하시는 것만으로 통화 연결이 됩니다.)`;
         break;
       default:
-        chatbotAnswer = "어르신, 무엇이든 다정하게 설명해 드리겠습니다. 편안하게 여쭤보세요!";
+        chatbotAnswer = "어르신, 무엇이든 쉽고 다정하게 설명해 드리겠습니다. 편안하게 물어보세요!";
     }
 
     const botBubble = document.createElement('div');
@@ -477,15 +694,11 @@ function handleChatbotQuery(type, userQuestion) {
     `;
     messagesContainer.appendChild(botBubble);
     
-    // 원복
     quickActions.style.pointerEvents = 'auto';
     quickActions.style.opacity = '1';
 
-    // 최하단 스크롤
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-    // 챗봇 대답 🔊 음성 리딩
-    // 태그를 제외한 텍스트만 추출해서 음성 출력
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = chatbotAnswer;
     const plainText = tempDiv.textContent || tempDiv.innerText;
@@ -496,21 +709,15 @@ function handleChatbotQuery(type, userQuestion) {
 
 
 /* ==========================================================================
-   6. 모달 제어 및 간편 양식 (Modal & Contact Form Controls)
+   7. 모달 제어 및 간편 양식 (Modal & Contact Form Controls)
    ========================================================================== */
 
-/**
- * 홈페이지 쉬운 설명서 열기
- */
 function openHelpModal() {
   const modal = document.getElementById('helpModal');
   modal.classList.add('active');
-  speakText("홈페이지 쉬운 설명서가 열렸습니다. 큰 글씨를 보시거나, 음성 듣기 기능, 고대비 어두운 모드를 어떻게 사용하는지 차례로 알려드립니다.");
+  speakText("루먼픽 홈페이지 쉬운 설명서가 열렸습니다. 큰 글씨 확대 기능, 🔊 음성 읽어주기 기능, 고대비 밤 화면 전환에 대해 차례로 가이드해 드립니다.");
 }
 
-/**
- * 홈페이지 쉬운 설명서 닫기
- */
 function closeHelpModal() {
   const modal = document.getElementById('helpModal');
   modal.classList.remove('active');
@@ -519,32 +726,21 @@ function closeHelpModal() {
   }
 }
 
-/**
- * 게임 성공 모달 열기
- */
 function showSuccessModal() {
   const modal = document.getElementById('gameSuccessModal');
   modal.classList.add('active');
   speakText("축하합니다! 참 잘하셨어요! 카드를 모두 맞추어 뇌가 아주 생생해졌습니다.");
 }
 
-/**
- * 게임 성공 모달 닫기
- */
 function closeSuccessModal() {
   const modal = document.getElementById('gameSuccessModal');
   modal.classList.remove('active');
 }
 
-/**
- * 특정 체험으로 부드럽게 스크롤하며 포커스를 동기화합니다.
- * @param {string} type - 'memory' 또는 'smartphone'
- */
 function scrollToExperience(type) {
   const target = document.getElementById(type === 'memory' ? 'memory-game-section' : 'smartphone-section');
   if (target) {
     target.scrollIntoView({ behavior: 'smooth' });
-    // 시각적 강조
     target.style.outline = '4px solid var(--color-mint)';
     setTimeout(() => {
       target.style.outline = 'none';
@@ -552,9 +748,6 @@ function scrollToExperience(type) {
   }
 }
 
-/**
- * 간편 신청 양식 접수 핸들러
- */
 function handleContactSubmit(event) {
   event.preventDefault();
   
@@ -563,21 +756,16 @@ function handleContactSubmit(event) {
   const agree = document.getElementById('privacyAgree').checked;
 
   if (!name || !phone || !agree) {
-    alert("성함과 전화번호를 정확히 기재하시고 안심 서약에 체크해 주세요.");
+    alert("성함과 전화번호를 입력하시고 안심 서약에 동의해 주세요.");
     return;
   }
 
-  // 폼 숨기기 및 성공 카드 출력
   document.getElementById('quickContactForm').classList.add('d-none');
   document.getElementById('contactSuccessMsg').classList.remove('d-none');
   
-  // 성공 멘트 낭독
-  speakText(`${name} 어르신, 상담 전화 접수가 안전하게 잘 끝났습니다! 입력해주신 번호 ${phone}으로 마음 따뜻하고 친절하게 대기 시간 없이 전화해 드릴게요. 감사합니다.`);
+  speakText(`${name} 어르신, 상담 접수가 안전하게 완료되었습니다! 남겨주신 전화번호 ${phone}으로 정성이 담긴 친절한 안내 전화를 조속히 올리겠습니다. 편안한 하루 되세요.`);
 }
 
-/**
- * 상담 신청 완료 후 재신청 폼 리셋
- */
 function resetContactForm() {
   document.getElementById('quickContactForm').reset();
   document.getElementById('quickContactForm').classList.remove('d-none');

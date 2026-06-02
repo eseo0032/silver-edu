@@ -1,28 +1,31 @@
 /* ==========================================================================
-   실버 배움터 (Silver Academy) - 고품격 맞춤형 디자인 시스템
+   실버교육기관 루먼픽 (Lumanpick) - 프리미엄 통합 디자인 시스템
    ========================================================================== */
 
 /* 1. 디자인 시스템 토큰 및 변수 선언 */
 :root {
-  /* HSL 기반 핵심 색상 */
-  --color-mint: hsl(170, 74%, 41%);
-  --color-mint-dark: hsl(170, 74%, 32%);
+  /* HSL 기반 핵심 색상 (더 차분하고 고급화된 스펙트럼) */
+  --color-mint: hsl(170, 74%, 38%);
+  --color-mint-dark: hsl(170, 74%, 28%);
   --color-mint-light: hsl(170, 74%, 93%);
   --color-mint-glow: rgba(27, 180, 154, 0.15);
 
-  --color-orange: hsl(16, 100%, 64%);
-  --color-orange-dark: hsl(16, 90%, 55%);
+  --color-orange: hsl(16, 100%, 60%);
+  --color-orange-dark: hsl(16, 90%, 50%);
   --color-orange-light: hsl(16, 100%, 94%);
 
   --color-beige: hsl(38, 43%, 97%);
   --color-beige-dark: hsl(38, 30%, 90%);
 
   /* 보조 카테고리 태그 색상 */
-  --color-green-tag: hsl(136, 53%, 43%);
+  --color-green-tag: hsl(136, 53%, 40%);
   --color-green-light: hsl(136, 53%, 94%);
   
-  --color-vibe-purple: hsl(282, 54%, 48%);
+  --color-vibe-purple: hsl(282, 54%, 45%);
   --color-vibe-light: hsl(282, 54%, 95%);
+  
+  --color-psychological-blue: hsl(207, 74%, 45%);
+  --color-psychological-light: hsl(207, 74%, 94%);
 
   /* 기본 뉴트럴 색상 */
   --color-bg-light: #fbf8f3;
@@ -66,7 +69,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 어르신 접근성을 위한 문단 여백 및 가독성 확보 */
 p, li {
   letter-spacing: -0.02em;
 }
@@ -92,14 +94,12 @@ h1, h2, h3, h4 {
 
 /* 3. 공통 UI 컴포넌트 */
 
-/* 컨테이너 */
 .section-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* 버튼 스타일 (48px 이상 넓은 클릭 영역 확보) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -176,7 +176,7 @@ h1, h2, h3, h4 {
   color: var(--color-white);
 }
 .btn-green:hover {
-  background-color: hsl(136, 53%, 33%);
+  background-color: hsl(136, 53%, 30%);
   transform: translateY(-2px);
 }
 
@@ -185,7 +185,7 @@ h1, h2, h3, h4 {
   color: var(--color-white);
 }
 .btn-vibe:hover {
-  background-color: hsl(282, 54%, 38%);
+  background-color: hsl(282, 54%, 35%);
   transform: translateY(-2px);
 }
 
@@ -200,7 +200,6 @@ h1, h2, h3, h4 {
   font-size: 1.25rem;
 }
 
-/* TTS 스피커 재생 버튼 */
 .btn-tts {
   background-color: var(--color-white);
   border: 2px solid var(--color-mint);
@@ -256,7 +255,7 @@ h1, h2, h3, h4 {
 }
 
 .header-container {
-  max-width: 1250px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 16px 24px;
   display: flex;
@@ -284,11 +283,10 @@ h1, h2, h3, h4 {
   letter-spacing: -0.04em;
 }
 
-/* 접근성 컨트롤 패널 */
 .accessibility-suite {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -331,7 +329,7 @@ h1, h2, h3, h4 {
   transform: scale(1.1);
 }
 
-.btn-contrast-ctrl, .btn-help-ctrl {
+.btn-contrast-ctrl, .btn-help-ctrl, .btn-admin-ctrl {
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
   color: var(--color-text-dark);
@@ -362,10 +360,23 @@ h1, h2, h3, h4 {
   color: var(--color-white);
 }
 
-/* 5. 메인 히어로 섹션 */
+.btn-admin-ctrl {
+  background-color: var(--color-mint-light);
+  border-color: var(--color-mint);
+  color: var(--color-mint-dark);
+}
+.btn-admin-ctrl:hover, .btn-admin-ctrl.active {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+}
+
+/* 5. 메인 히어로 섹션 (루먼픽 고급 백그라운드 융합) */
 .hero-section {
-  padding: 80px 0;
-  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-light) 100%);
+  padding: 100px 0;
+  /* 생성된 lumanpick_hero_bg.png를 은은하게 그라데이션과 블렌딩하여 적용 */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.94) 30%, rgba(251, 248, 243, 0.82) 100%), 
+              url('assets/lumanpick_hero_bg.png') no-repeat center center;
+  background-size: cover;
   border-bottom: 2px solid var(--color-beige-dark);
 }
 
@@ -379,7 +390,7 @@ h1, h2, h3, h4 {
 }
 
 .hero-content {
-  flex: 1;
+  flex: 1.2;
 }
 
 .title-with-tts {
@@ -393,6 +404,7 @@ h1, h2, h3, h4 {
   display: inline;
   vertical-align: middle;
   line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .hero-desc {
@@ -408,7 +420,7 @@ h1, h2, h3, h4 {
 }
 
 .hero-visual {
-  flex: 1;
+  flex: 0.8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -444,14 +456,14 @@ h1, h2, h3, h4 {
   display: block;
 }
 
-/* 6. 4대 프로그램 카드 그리드 섹션 */
+/* 6. 5대 프로그램 카드 그리드 섹션 */
 .programs-section {
   padding: 100px 0;
   background-color: var(--color-bg-light);
 }
 
 .section-header {
-  max-width: 800px;
+  max-width: 850px;
   margin: 0 auto 60px auto;
 }
 
@@ -474,10 +486,37 @@ h1, h2, h3, h4 {
   color: var(--color-text-muted);
 }
 
-.programs-grid {
+/* 5개 아이템을 대형 화면에서 3열로 유려하게 매핑 */
+.programs-grid.luman-5-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 36px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* 4번째와 5번째 아이템이 비대칭되지 않고 정중앙 정렬되도록 조정 */
+@media (min-width: 1024px) {
+  .programs-grid.luman-5-grid > article:nth-child(4) {
+    grid-column: 1 / 2;
+    margin-left: 50%;
+    width: 100%;
+  }
+  .programs-grid.luman-5-grid > article:nth-child(5) {
+    grid-column: 2 / 3;
+    margin-left: 50%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1023px) {
+  .programs-grid.luman-5-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .programs-grid.luman-5-grid > article:nth-child(4),
+  .programs-grid.luman-5-grid > article:nth-child(5) {
+    grid-column: auto !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
 }
 
 .program-card {
@@ -499,7 +538,7 @@ h1, h2, h3, h4 {
 
 .card-image-wrap {
   position: relative;
-  height: 260px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -530,9 +569,10 @@ h1, h2, h3, h4 {
 .bg-orange { background-color: var(--color-orange); }
 .bg-green { background-color: var(--color-green-tag); }
 .bg-vibe { background-color: var(--color-vibe-purple); }
+.bg-gray { background-color: var(--color-text-muted); }
 
 .card-body {
-  padding: 32px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -541,23 +581,23 @@ h1, h2, h3, h4 {
 .card-title-wrap {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .card-title-wrap h3 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: var(--color-text-dark);
 }
 
 .card-features {
   list-style: none;
   color: var(--color-text-muted);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   flex: 1;
 }
 
 .card-features li {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -567,7 +607,288 @@ h1, h2, h3, h4 {
   margin-top: auto;
 }
 
-/* 7. 체험형 놀이터 (Interactive Experience Zone) */
+/* ==========================================================================
+   7. [신규] 📢 루먼픽 실시간 교육 진행 현황판 (클라이언트 게시판)
+   ========================================================================== */
+.education-feed-section {
+  padding: 100px 0;
+  background-color: var(--color-white);
+  border-top: 2px solid var(--color-beige-dark);
+}
+
+/* 카테고리 필터 바 */
+.feed-filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.btn-filter-tab {
+  background-color: var(--color-bg-light);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-dark);
+  padding: 10px 24px;
+  border-radius: var(--radius-round);
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-height: 46px;
+}
+
+.btn-filter-tab:hover {
+  background-color: var(--color-beige-dark);
+  border-color: var(--color-text-muted);
+}
+
+.btn-filter-tab.active {
+  background-color: var(--color-mint);
+  border-color: var(--color-mint);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(27, 180, 154, 0.25);
+  transform: translateY(-2px);
+}
+
+/* 동적 피드 그리드 */
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  min-height: 200px;
+}
+
+/* 게시판 카드 개별 디자인 */
+.feed-card {
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feed-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-mint);
+}
+
+.feed-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feed-card-badge {
+  padding: 4px 12px;
+  border-radius: var(--radius-round);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.badge-cognitive { background-color: var(--color-mint); }
+.badge-behavioral { background-color: var(--color-green-tag); }
+.badge-vibe { background-color: var(--color-vibe-purple); }
+.badge-psychological { background-color: var(--color-orange); }
+.badge-others { background-color: var(--color-text-muted); }
+
+.feed-card-date {
+  color: var(--color-text-muted);
+}
+
+.feed-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text-dark);
+}
+
+.feed-card-desc {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.feed-card-footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-dark);
+}
+
+.feed-card-instructor {
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   8. [신규] ⚙️ 관리자 대시보드 오버레이 패널 (Admin Panel Overlay)
+   ========================================================================== */
+.admin-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(45, 55, 72, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.admin-dashboard-card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 4px solid var(--color-mint);
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.admin-header-row {
+  background-color: var(--color-bg-light);
+  padding: 20px 32px;
+  border-bottom: 2px solid var(--color-beige-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.admin-header-row h2 {
+  color: var(--color-mint-dark);
+  font-size: 1.8rem;
+}
+
+.admin-content-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  overflow: hidden;
+  height: 100%;
+}
+
+.admin-form-card {
+  padding: 32px;
+  border-right: 2px solid var(--color-border);
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-form-card h3 {
+  border-bottom: 2px solid var(--color-orange);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.admin-list-card {
+  padding: 32px;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-list-card h3 {
+  border-bottom: 2px solid var(--color-mint);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+/* 관리자 일지 데이터 테이블 */
+.admin-table-container {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex: 1;
+  background-color: var(--color-bg-light);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.admin-table th {
+  background-color: var(--color-mint);
+  color: var(--color-white);
+  padding: 14px 16px;
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background-color: var(--color-mint-light);
+}
+
+/* 삭제 쓰레기통 버튼 */
+.btn-delete-log {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-delete-log:hover {
+  background-color: #c62828;
+  color: var(--color-white);
+}
+
+/* ==========================================================================
+   9. 체험형 놀이터 (Interactive Experience Zone)
+   ========================================================================== */
 .experience-section {
   padding: 100px 0;
   background-color: var(--color-white);
@@ -624,7 +945,6 @@ h1, h2, h3, h4 {
   padding: 32px;
 }
 
-/* 기억력 카드 게임 내부 디자인 */
 .game-controls {
   display: flex;
   justify-content: space-between;
@@ -806,7 +1126,7 @@ h1, h2, h3, h4 {
 
 .chat-bubble.sent {
   align-self: flex-end;
-  background-color: #ffeb3b; /* 카카오톡 스타일 노란색 */
+  background-color: #ffeb3b;
   color: #000000;
   border-top-right-radius: 4px;
 }
@@ -823,7 +1143,6 @@ h1, h2, h3, h4 {
   word-break: break-all;
 }
 
-/* 미션 박스 */
 .mission-box {
   background-color: var(--color-white);
   border-top: 2px solid var(--color-orange);
@@ -849,7 +1168,6 @@ h1, h2, h3, h4 {
   font-weight: 700;
 }
 
-/* 스마트폰 키패드 입력 영역 */
 .phone-input-area {
   padding: 10px;
   background-color: var(--color-white);
@@ -932,7 +1250,9 @@ h1, h2, h3, h4 {
   background-color: #2d3748;
 }
 
-/* 8. 간편 상담 신청 섹션 (Quick Contact) */
+/* ==========================================================================
+   10. 간편 상담 신청 섹션 (Quick Contact)
+   ========================================================================== */
 .contact-section {
   padding: 100px 0;
   background-color: var(--color-bg-light);
@@ -1012,7 +1332,6 @@ h1, h2, h3, h4 {
   box-shadow: 0 0 0 4px var(--color-orange-light);
 }
 
-/* 안심 개인정보 동의 체크박스 */
 .privacy-agreement-box {
   background-color: var(--color-white);
   padding: 16px 20px;
@@ -1079,7 +1398,6 @@ h1, h2, h3, h4 {
   transform: rotate(45deg);
 }
 
-/* 상담 완료 박스 */
 .contact-success-box {
   padding: 40px 10px;
 }
@@ -1094,7 +1412,9 @@ h1, h2, h3, h4 {
   display: none !important;
 }
 
-/* 9. 푸터 (Footer) */
+/* ==========================================================================
+   11. 푸터 (Footer)
+   ========================================================================== */
 .main-footer {
   background-color: var(--color-text-dark);
   color: var(--color-white);
@@ -1173,7 +1493,9 @@ h1, h2, h3, h4 {
   margin-bottom: 6px;
 }
 
-/* 10. 💬 말벗 도우미 챗봇 위젯 */
+/* ==========================================================================
+   12. 💬 말벗 도우미 챗봇 위젯
+   ========================================================================== */
 .chatbot-wrapper {
   position: fixed;
   bottom: 30px;
@@ -1214,7 +1536,6 @@ h1, h2, h3, h4 {
   margin-top: 2px;
 }
 
-/* 챗봇 대화창 */
 .chatbot-window {
   position: absolute;
   bottom: 95px;
@@ -1345,7 +1666,9 @@ h1, h2, h3, h4 {
   font-size: 0.75rem;
 }
 
-/* 11. 홈페이지 쉬운 설명서 및 모달 공통 */
+/* ==========================================================================
+   13. 홈페이지 쉬운 설명서 및 모달 공통
+   ========================================================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1434,42 +1757,37 @@ h1, h2, h3, h4 {
   color: var(--color-orange-dark);
 }
 
-/* 12. 어르신을 위한 애니메이션 효과 */
 .pulse-animation {
   animation: softPulse 2s infinite;
 }
 
 @keyframes softPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 122, 69, 0.6);
-  }
-  70% {
-    box-shadow: 0 0 0 12px rgba(255, 122, 69, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 122, 69, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(255, 122, 60, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(255, 122, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 122, 60, 0); }
 }
 
-/* 13. 🌓 고대비 모드 전용 스타일링 (중요) */
+/* ==========================================================================
+   14. 🌓 고대비 모드 전용 스타일링 (접근성 극대화)
+   ========================================================================== */
 body.high-contrast {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
-body.high-contrast :not(.btn, .game-card, .phone-frame, .phone-screen, .checkmark) {
+body.high-contrast :not(.btn, .game-card, .phone-frame, .phone-screen, .checkmark, .btn-filter-tab) {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
-/* 고대비 모드 텍스트 밝은 황색/녹색 강조 */
 body.high-contrast h1, 
 body.high-contrast h2, 
 body.high-contrast h3,
 body.high-contrast strong,
 body.high-contrast .highlight-text,
-body.high-contrast .color-mint {
-  color: #ffff00 !important; /* 선명한 형광 황색 */
+body.high-contrast .color-mint,
+body.high-contrast .admin-header-row h2 {
+  color: #ffff00 !important;
 }
 
 body.high-contrast a, 
@@ -1488,7 +1806,7 @@ body.high-contrast .btn-mint,
 body.high-contrast .btn-orange,
 body.high-contrast .btn-green,
 body.high-contrast .btn-vibe {
-  background-color: #00ff00 !important; /* 형광 녹색 */
+  background-color: #00ff00 !important;
   color: #000000 !important;
   font-weight: 900 !important;
   border-color: #00ff00 !important;
@@ -1506,11 +1824,17 @@ body.high-contrast .contact-form-card,
 body.high-contrast .game-controls,
 body.high-contrast .chatbot-window,
 body.high-contrast .modal-card,
-body.high-contrast .privacy-agreement-box {
+body.high-contrast .privacy-agreement-box,
+body.high-contrast .admin-dashboard-card,
+body.high-contrast .admin-form-card,
+body.high-contrast .admin-list-card,
+body.high-contrast .admin-table-container,
+body.high-contrast .feed-card {
   border: 3px solid #ffffff !important;
 }
 
-body.high-contrast .card-badge {
+body.high-contrast .card-badge,
+body.high-contrast .feed-card-badge {
   background-color: #ffff00 !important;
   color: #000000 !important;
   border: 2px solid #000000 !important;
@@ -1521,61 +1845,54 @@ body.high-contrast .game-card {
   background-color: #333333 !important;
 }
 
-body.high-contrast .game-card.flipped {
-  border-color: #ffff00 !important;
-}
+body.high-contrast .game-card.flipped { border-color: #ffff00 !important; }
+body.high-contrast .game-card.matched { border-color: #00ff00 !important; }
+body.high-contrast .card-back { background-color: #222222 !important; color: #ffff00 !important; }
 
-body.high-contrast .game-card.matched {
-  border-color: #00ff00 !important;
-}
-
-body.high-contrast .card-back {
-  background-color: #222222 !important;
-  color: #ffff00 !important;
-}
-
-body.high-contrast .phone-chat-body {
-  background-color: #111111 !important;
-}
-
+body.high-contrast .phone-chat-body { background-color: #111111 !important; }
 body.high-contrast .chat-bubble.received {
   background-color: #222222 !important;
   color: #ffffff !important;
   border: 1px solid #ffffff !important;
 }
-
 body.high-contrast .chat-bubble.sent {
   background-color: #ffff00 !important;
   color: #000000 !important;
   border: 1px solid #000000 !important;
 }
 
-body.high-contrast .checkmark {
-  border-color: #ffffff !important;
-}
+body.high-contrast .checkmark { border-color: #ffffff !important; }
+body.high-contrast input[type="checkbox"]:checked ~ .checkmark { background-color: #ffff00 !important; }
 
-body.high-contrast input[type="checkbox"]:checked ~ .checkmark {
-  background-color: #ffff00 !important;
-}
-
-body.high-contrast .input-large {
+body.high-contrast .input-large,
+body.high-contrast select.input-large,
+body.high-contrast textarea.input-large {
   border-color: #ffffff !important;
   background-color: #111111 !important;
   color: #ffffff !important;
 }
 
-body.high-contrast .input-large:focus {
-  border-color: #ffff00 !important;
-}
+body.high-contrast .input-large:focus { border-color: #ffff00 !important; }
 
 body.high-contrast img {
   filter: grayscale(50%) contrast(150%);
   border: 2px solid #ffffff;
 }
 
-/* 14. 반응형 레이아웃 미디어 쿼리 */
+body.high-contrast .btn-filter-tab {
+  border: 2px solid #ffffff !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+body.high-contrast .btn-filter-tab.active {
+  background-color: #00ff00 !important;
+  color: #000000 !important;
+  border-color: #00ff00 !important;
+}
 
-/* 태블릿 (1024px 이하) */
+/* ==========================================================================
+   15. 반응형 레이아웃 미디어 쿼리
+   ========================================================================== */
 @media (max-width: 1024px) {
   .hero-container {
     flex-direction: column;
@@ -1583,17 +1900,36 @@ body.high-contrast img {
     gap: 32px;
   }
   
-  .hero-actions {
-    justify-content: center;
-  }
+  .hero-actions { justify-content: center; }
+  .title-with-tts h1 { font-size: 2.3rem; }
   
-  .title-with-tts h1 {
-    font-size: 2.3rem;
-  }
-  
-  .programs-grid {
+  .programs-grid.luman-5-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+  }
+  
+  .feed-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .admin-content-grid {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  
+  .admin-form-card {
+    border-right: none;
+    border-bottom: 2px solid var(--color-border);
+    height: auto;
+    overflow-y: visible;
+  }
+  
+  .admin-list-card {
+    height: auto;
+    overflow-y: visible;
+  }
+  
+  .admin-dashboard-card {
+    height: 95vh;
   }
   
   .experience-grid {
@@ -1607,33 +1943,21 @@ body.high-contrast img {
   }
 }
 
-/* 모바일 (768px 이하) */
 @media (max-width: 768px) {
-  html {
-    font-size: calc(15px * var(--font-scale));
-  }
+  html { font-size: calc(15px * var(--font-scale)); }
   
-  .header-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .accessibility-suite {
-    justify-content: center;
-    width: 100%;
-  }
+  .header-container { flex-direction: column; align-items: center; }
+  .accessibility-suite { justify-content: center; width: 100%; }
 
-  .hero-section {
-    padding: 40px 0;
-  }
+  .hero-section { padding: 40px 0; }
+  .title-with-tts h1 { font-size: 1.8rem; }
 
-  .title-with-tts h1 {
-    font-size: 1.8rem;
-  }
-
-  .programs-grid {
+  .programs-grid.luman-5-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+  }
+  
+  .feed-grid {
+    grid-template-columns: 1fr;
   }
   
   .chatbot-window {
@@ -1646,7 +1970,5 @@ body.high-contrast img {
     gap: 10px;
   }
   
-  .game-card {
-    height: 75px;
-  }
+  .game-card { height: 75px; }
 }
