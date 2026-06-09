@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>실버교육기관 루먼픽에 오신걸 환영합니다</title>
-  <!-- Google Fonts - Outfit for UI controls & Noto Sans KR for rich Korean readability -->
+  <!-- Google Fonts - Gowun Dodum (Gentle & soft Korean sans), Noto Serif KR (Sophisticated Serif), Outfit (Elegant numerals/controls) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+KR:wght@500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -15,29 +15,41 @@
   <!-- 어르신을 위한 쉬운 도움말 설명서 모달 -->
   <div id="helpModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
     <div class="modal-card">
-      <h2 id="helpModalTitle">💡 홈페이지 쉬운 설명서</h2>
+      <h2 id="helpModalTitle">
+        <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        루먼픽 이용 안내서
+      </h2>
       <div class="modal-body font-large">
-        <p>어르신들께서 루먼픽 홈페이지를 편안하게 즐기실 수 있도록 마련한 특수 기능입니다.</p>
+        <p>어르신들께서 루먼픽 홈페이지를 편안하게 탐색하실 수 있도록 설계된 전문 편의 기능입니다.</p>
         <ul class="help-list">
-          <li><strong>글씨 크기 (A-, A, A+)</strong>: 화면 맨 위 오른쪽에 있는 버튼을 누르시면 홈페이지의 모든 글씨를 큼직하게 키울 수 있습니다.</li>
-          <li><strong>🔊 목소리로 듣기 (스피커)</strong>: 글 제목이나 소개 옆에 있는 스피커 버튼을 누르시면 컴퓨터가 따뜻하고 차분한 목소리로 글을 읽어드립니다.</li>
-          <li><strong>어두운 화면 (고대비)</strong>: 눈이 쉽게 피로하거나 잘 보이지 않으시는 분들은 반달 아이콘을 클릭하여 검은색 배경의 고대비 화면으로 바꿀 수 있습니다.</li>
-          <li><strong>⚙️ 관리자 공간</strong>: 디자이너/강사가 당일 진행한 교육 일지를 작성하고 게시판에 자유롭게 연동하는 게시 관리 공간입니다.</li>
+          <li><strong>글씨 조절 (A-, A, A+)</strong>: 상단 메뉴의 크기 단추를 누르시면 모든 본문 텍스트가 큼직하고 시원하게 조절됩니다.</li>
+          <li><strong>소리로 듣기 (🔊)</strong>: 각 안내 카드의 스피커 단추를 누르시면 신뢰감 있고 부드러운 목소리로 텍스트를 정독해 드립니다.</li>
+          <li><strong>고대비 화면</strong>: 저시력 및 눈의 침침함을 방지하기 위해 원클릭으로 검은색 바탕의 선명한 대비 화면으로 변경이 가능합니다.</li>
+          <li><strong>관리자 공간</strong>: 강사진과 퍼실리테이터가 오늘의 교육 일지를 직접 기록하여 대시보드 및 실시간 게시판에 연동하는 관리 패널입니다.</li>
         </ul>
       </div>
-      <button class="btn btn-primary btn-large font-large" onclick="closeHelpModal()">설명서 닫기 ➔</button>
+      <button class="btn btn-primary btn-large font-large" onclick="closeHelpModal()">안내서 닫기 ➔</button>
     </div>
   </div>
 
   <!-- 인지능력 게임 성공 축하 모달 -->
   <div id="gameSuccessModal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-card text-center success-card">
-      <div class="success-emoji">🎉 🥳 👏</div>
-      <h2>참 잘하셨어요!</h2>
-      <p class="font-large highlight-text">카드를 모두 맞추셨습니다!</p>
-      <p class="font-medium text-muted">집중력과 기억력이 훌륭하십니다. 뇌세포가 더욱 건강하고 젊어졌습니다!</p>
-      <button class="btn btn-secondary btn-large font-large" onclick="restartMemoryGame(); closeSuccessModal();">한 번 더 하기 🔄</button>
-      <button class="btn btn-primary btn-large font-large" onclick="closeSuccessModal()">창 닫기 ➔</button>
+      <div class="success-icon-wrap">
+        <svg class="success-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2>성공을 축하합니다!</h2>
+      <p class="font-large highlight-text">기억력 카드를 완벽하게 맞추셨습니다!</p>
+      <p class="font-medium text-muted">퍼실리테이션 기반 인지 훈련을 훌륭히 소화하셨습니다. 집중력과 인지 발달에 큰 도움이 되었습니다.</p>
+      <button class="btn btn-secondary btn-large font-large" onclick="restartMemoryGame(); closeSuccessModal();">🔄 한 번 더 도전하기</button>
+      <button class="btn btn-primary btn-large font-large" onclick="closeSuccessModal()">훈련 마치기 ➔</button>
     </div>
   </div>
 
@@ -45,7 +57,10 @@
   <header class="main-header">
     <div class="header-container">
       <a href="#" class="brand-logo" aria-label="루먼픽 홈으로 이동">
-        <span class="logo-emoji">🌸</span>
+        <!-- 루먼픽 전용 로고 SVG -->
+        <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
         <span class="logo-text">실버교육기관 루먼픽</span>
       </a>
 
@@ -53,7 +68,7 @@
       <div class="accessibility-suite" role="region" aria-label="웹 접근성 조절 도구">
         <!-- 글씨 크기 조절기 -->
         <div class="control-group">
-          <span class="control-label font-medium">글씨 조절</span>
+          <span class="control-label font-medium">글씨 크기</span>
           <button onclick="changeFontSize('small')" class="btn-text-ctrl" aria-label="글씨 작게">A-</button>
           <button onclick="changeFontSize('normal')" class="btn-text-ctrl active" id="btnNormalFont" aria-label="기본 크기">A</button>
           <button onclick="changeFontSize('large')" class="btn-text-ctrl" aria-label="글씨 크게">A+</button>
@@ -62,21 +77,35 @@
         <!-- 화면 대비 스위치 -->
         <div class="control-group">
           <button onclick="toggleContrastMode()" id="contrastBtn" class="btn-contrast-ctrl" aria-label="고대비 어두운 화면 켜기">
-            <span class="icon">🌓</span> <span class="btn-label font-medium">고대비 화면</span>
+            <svg class="control-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"></path>
+              <path d="M12 3v18"></path>
+              <path d="M12 9a3 3 0 0 0 0 6"></path>
+            </svg>
+            <span class="btn-label font-medium">고대비 화면</span>
           </button>
         </div>
 
         <!-- 쉬운 설명서 열기 -->
         <div class="control-group">
           <button onclick="openHelpModal()" class="btn-help-ctrl" aria-label="홈페이지 쉬운 설명서 열기">
-            <span class="icon">❓</span> <span class="btn-label font-medium">쉬운 설명서</span>
+            <svg class="control-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span class="btn-label font-medium">이용 안내서</span>
           </button>
         </div>
 
-        <!-- [신규] 관리자 대시보드 토글 버튼 -->
+        <!-- 관리자 대시보드 토글 버튼 -->
         <div class="control-group">
           <button onclick="toggleAdminMode()" id="adminToggleBtn" class="btn-admin-ctrl" aria-label="관리자 일지 등록 대시보드 토글">
-            <span class="icon">⚙️</span> <span class="btn-label font-medium">관리자 공간</span>
+            <svg class="control-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span class="btn-label font-medium">관리자 공간</span>
           </button>
         </div>
       </div>
@@ -87,7 +116,13 @@
   <div id="adminPanel" class="admin-panel-overlay d-none">
     <div class="admin-dashboard-card card-shadow">
       <div class="admin-header-row">
-        <h2>⚙️ 루먼픽 교육 일지 관리자 패널</h2>
+        <h2>
+          <svg class="admin-header-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          루먼픽 교육 일지 관리자 대시보드
+        </h2>
         <button onclick="toggleAdminMode()" class="btn btn-outline font-medium">대시보드 닫기 ➔</button>
       </div>
 
@@ -100,17 +135,17 @@
             <div class="form-group">
               <label for="logCategory" class="font-medium">1. 교육 분야 선택 (카테고리)</label>
               <select id="logCategory" required class="input-large font-medium">
-                <option value="cognitive">🧠 인지향상교육</option>
-                <option value="behavioral">🏃 행동발달교육</option>
-                <option value="vibe">🎨 바이브향상교육</option>
-                <option value="psychological">💬 심리상담지원</option>
-                <option value="others">🌸 기타 영역</option>
+                <option value="cognitive">뇌 인지향상교육</option>
+                <option value="behavioral">신체 행동발달교육</option>
+                <option value="vibe">정서 바이브향상교육</option>
+                <option value="psychological">마음 심리상담지원</option>
+                <option value="others">기타 영역</option>
               </select>
             </div>
             
             <div class="form-group">
               <label for="logTitle" class="font-medium">2. 교육 일지 제목</label>
-              <input type="text" id="logTitle" required class="input-large font-medium" placeholder="예: 뇌 건강 기억력 카드 놀이 4회기 수업 완료">
+              <input type="text" id="logTitle" required class="input-large font-medium" placeholder="예: 뇌 건강 인지 자극 기억 놀이 수업 완료">
             </div>
             
             <div class="form-row">
@@ -173,8 +208,8 @@
           </button>
         </div>
         <p class="hero-desc font-large">
-          루먼픽은 60~80세 어르신들의 활기차고 품격 있는 배움을 돕는 전문 시니어 디자인 교육기관입니다.<br>
-          인지향상, 행동발달, 바이브 문화, 전문 심리상담을 통해 더 행복하고 보람찬 노후를 맞이하세요.
+          루먼픽은 어르신의 활기차고 품격 있는 내일을 돕는 프리미엄 실버 평생학습 공간입니다.<br>
+          다각도의 인지향상, 체계적 행동발달, 지혜가 담긴 바이브 문화, 정서적 심리상담을 설계합니다.
         </p>
         <div class="hero-actions">
           <a href="#programs" class="btn btn-primary btn-xlarge font-large pulse-animation">
@@ -203,7 +238,7 @@
             🔊 소리로 듣기
           </button>
         </div>
-        <p class="section-subtitle font-large">전문 퍼실리테이터와 함께하는 6080 어르신 최적화 맞춤 설계 클래스입니다.</p>
+        <p class="section-subtitle font-large">전문 퍼실리테이터와 강사진이 제공하는 6080 어르신 최적화 정서 맞춤형 클래스입니다.</p>
       </div>
 
       <!-- 5대 카드 그리드 레이아웃 -->
@@ -213,17 +248,21 @@
         <article class="program-card">
           <div class="card-image-wrap">
             <img src="assets/silver_cognitive.png" alt="안경을 쓰신 한 인자한 어르신이 미소를 머금은 채 태블릿 PC로 기억력 퍼즐을 푸는 모습">
-            <span class="card-badge bg-mint">뇌 건강</span>
+            <span class="card-badge bg-mint">인지 케어</span>
           </div>
           <div class="card-body">
             <div class="card-title-wrap">
-              <h3>🧠 인지향상교육</h3>
+              <!-- 전문적인 인지/두뇌 SVG 아이콘 탑재 -->
+              <svg class="card-title-svg text-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-3.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-3.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2z"></path>
+              </svg>
+              <h3>인지향상교육</h3>
               <button onclick="speakText('뇌 건강을 위한 인지향상교육. 집중력과 판단력을 깨우는 재미있는 두뇌 연산 퍼즐 맞추기, 시각기억력 및 문제해결력 훈련, 집중 트레이닝을 통한 치매 예방 케어.')" class="btn-tts-sm" aria-label="인지향상교육 프로그램 설명 소리로 듣기">🔊</button>
             </div>
             <ul class="card-features font-medium">
-              <li>🧩 <strong>뇌세포를 깨우는</strong> 두뇌 연산 퍼즐 교실</li>
-              <li>🔍 <strong>시각기억력 및 판단력</strong> 집중 훈련</li>
-              <li>💬 <strong>자가 인지 능력 진단</strong> 및 치매 안심 예방 케어</li>
+              <li>🧩 <strong>뇌세포 활성화를 돕는</strong> 특화 연산 교실</li>
+              <li>🔍 <strong>시각적 기억력</strong> 및 집중력 트레이닝</li>
+              <li>💬 <strong>자가 인지 조기 진단</strong> 및 맞춤형 예방 솔루션</li>
             </ul>
             <div class="card-footer">
               <a href="#experience" class="btn btn-mint btn-full font-medium" onclick="scrollToExperience('memory')">
@@ -237,21 +276,27 @@
         <article class="program-card">
           <div class="card-image-wrap">
             <img src="assets/silver_behavior.png" alt="야외 정원에서 건강 강사와 어르신들이 고무 저항 운동 밴드를 활용해 활기차게 스트레칭을 하고 있는 모습">
-            <span class="card-badge bg-green">신체 발달</span>
+            <span class="card-badge bg-green">행동 발달</span>
           </div>
           <div class="card-body">
             <div class="card-title-wrap">
-              <h3>🏃 행동발달교육</h3>
+              <!-- 전문적인 행동/활동성 신체 SVG 아이콘 탑재 -->
+              <svg class="card-title-svg text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M18 8h-4V4h4v4zM6 8H2V4h4v4zM14 4h-4v4h4V4zM10 12H6v4h4v-4zM18 12h-4v4h4v-4zM14 16h-4v4h4v-4z"></path>
+                <circle cx="12" cy="5" r="1"></circle>
+                <path d="M9 20v-5h6v5"></path>
+              </svg>
+              <h3>행동발달교육</h3>
               <button onclick="speakText('신체 활력을 위한 행동발달교육. 관절 무리 없이 근력을 채우는 유색 탄성 저항 밴드 스트레칭, 바른 보행 자세와 낙상 방지 균형 운동, 일상 생활 소근육 발달 동작 프로그램.')" class="btn-tts-sm" aria-label="행동발달교육 프로그램 설명 소리로 듣기">🔊</button>
             </div>
             <ul class="card-features font-medium">
-              <li>🧘 <strong>유색 탄성 저항 밴드</strong>를 이용한 근력 스트레칭</li>
-              <li>🚶 <strong>낙상 방지 균형 감각</strong> 및 보행 자세 교정</li>
-              <li>🍏 <strong>일상 생활 소근육 운동</strong>과 활력 가득한 생태 걷기</li>
+              <li>🧘 <strong>관절 부담 없는</strong> 맞춤식 저항 밴드 운동</li>
+              <li>🚶 <strong>낙상 예방 균형 자세</strong> 및 낙상 방지 훈련</li>
+              <li>🍏 <strong>일상 속 기능 보완</strong> 소근육 향상 프로그램</li>
             </ul>
             <div class="card-footer">
               <a href="#contact" class="btn btn-green btn-full font-medium">
-                📞 신체 행동 클래스 신청 ➔
+                신체 행동 클래스 신청 ➔
               </a>
             </div>
           </div>
@@ -265,17 +310,26 @@
           </div>
           <div class="card-body">
             <div class="card-title-wrap">
-              <h3>🎨 바이브향상교육</h3>
+              <!-- 전문적인 미술/문화 감성 예술 SVG 아이콘 탑재 -->
+              <svg class="card-title-svg text-vibe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
+                <path d="M6 12A1.5 1.5 0 1 0 6 9A1.5 1.5 0 0 0 6 12Z"></path>
+                <path d="M10 8A1.5 1.5 0 1 0 10 5A1.5 1.5 0 0 0 10 8Z"></path>
+                <path d="M14 8A1.5 1.5 0 1 0 14 5A1.5 1.5 0 0 0 14 8Z"></path>
+                <path d="M18 12A1.5 1.5 0 1 0 18 9A1.5 1.5 0 0 0 18 12Z"></path>
+                <path d="M12 18a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3Z"></path>
+              </svg>
+              <h3>바이브향상교육</h3>
               <button onclick="speakText('행복한 정서와 예술적 즐거움을 위한 바이브향상교육. 정겨운 추억과 청춘의 멜로디를 노래하는 통기타 및 우쿨렐레 악기 연주, 나의 색깔을 담아 그리는 감성 아쿠아 미술 수채화 그리기, 서로의 감정을 주고받는 사교 이야기 모임.')" class="btn-tts-sm" aria-label="바이브향상교육 프로그램 설명 소리로 듣기">🔊</button>
             </div>
             <ul class="card-features font-medium">
-              <li>🎸 <strong>청춘의 멜로디</strong>를 노래하는 추억의 통기타 연주</li>
-              <li>🎨 <strong>내 마음의 고운 빛깔</strong>을 채우는 아쿠아 수채화 그리기</li>
-              <li>🌸 <strong>서로의 감정을 공유</strong>하는 정겨운 감성 사교 클래스</li>
+              <li>🎸 <strong>정서적 교감을 살리는</strong> 클래식 통기타 교실</li>
+              <li>🎨 <strong>마음을 어루만지는</strong> 프리미엄 감성 수채화</li>
+              <li>🌸 <strong>서로의 스토리를 공유</strong>하는 소통 인문 소모임</li>
             </ul>
             <div class="card-footer">
               <a href="#contact" class="btn btn-vibe btn-full font-medium">
-                🎨 예술 교실 소모임 구경하기 ➔
+                예술 교실 클래스 신청 ➔
               </a>
             </div>
           </div>
@@ -285,21 +339,26 @@
         <article class="program-card">
           <div class="card-image-wrap">
             <img src="assets/silver_hero.png" alt="어르신들이 모여서 고민을 나누며 밝은 웃음을 띠고 소통을 이어가는 따뜻한 상담 풍경">
-            <span class="card-badge bg-orange">정서 마음</span>
+            <span class="card-badge bg-orange">정서 케어</span>
           </div>
           <div class="card-body">
             <div class="card-title-wrap">
-              <h3>💬 심리상담지원</h3>
+              <!-- 전문적인 마음 치유/상담/경청 소통 SVG 아이콘 탑재 -->
+              <svg class="card-title-svg text-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                <path d="M12 9v4M12 15h.01"></path>
+              </svg>
+              <h3>심리상담지원</h3>
               <button onclick="speakText('어르신 정서와 외로움 예방을 위한 심리상담지원. 전문 실버 심리 상담사와 함께하는 일대일 따뜻한 경청 상담소, 대화와 그림을 통해 노인 우울증을 예방하는 힐링 그룹 프로그램, 노년기 가족 갈등 및 정서 불안 치유.')" class="btn-tts-sm" aria-label="심리상담지원 프로그램 설명 소리로 듣기">🔊</button>
             </div>
             <ul class="card-features font-medium">
-              <li>☕ <strong>전문 실버 마음 상담사</strong>와 일대일 따뜻한 경청 상담</li>
-              <li>🎨 <strong>미술 심리 치료</strong>를 연계한 자아 찾기 그룹</li>
-              <li>💚 <strong>시니어 마음 터놓기</strong> 노인 우울증 예방 및 마음 건강</li>
+              <li>☕ <strong>실버 심리 전문가</strong>의 밀착 1:1 경청 테라피</li>
+              <li>🎨 <strong>미술 심리 진단</strong>으로 고독감 및 스트레스 해소</li>
+              <li>💚 <strong>시니어 마음 나눔방</strong> 정서적 안정을 위한 소통</li>
             </ul>
             <div class="card-footer">
               <a href="#contact" class="btn btn-orange btn-full font-medium">
-                💬 1:1 비밀 마음상담 예약 ➔
+                1:1 안심 심리상담 예약 ➔
               </a>
             </div>
           </div>
@@ -309,17 +368,22 @@
         <article class="program-card">
           <div class="card-image-wrap">
             <img src="assets/silver_smart.png" alt="어르신이 Smart Life 글씨가 표시된 대형 모바일 스크린을 터치하면서 키오스크 사용법을 배우고 소통하는 기타 교육의 모습">
-            <span class="card-badge bg-gray">기타 생활</span>
+            <span class="card-badge bg-gray">생활 복지</span>
           </div>
           <div class="card-body">
             <div class="card-title-wrap">
-              <h3>🌸 기타 영역</h3>
+              <!-- 전문적인 스마트 테크/리터러시 SVG 아이콘 탑재 -->
+              <svg class="card-title-svg text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              <h3>기타 영역</h3>
               <button onclick="speakText('실버 라이프에 필수적인 실생활 밀착형 기타 영역. 스마트 라이프 키오스크 및 모바일 예매 등 실용 디지털 리터러시, 어르신 안심 금융 및 피싱 사기 완전 차단 예방 교실, 건강한 여가 생활 및 다양한 정기 행사.')" class="btn-tts-sm" aria-label="기타 영역 프로그램 설명 소리로 듣기">🔊</button>
             </div>
             <ul class="card-features font-medium">
-              <li>📱 <strong>실생활 디지털 해결</strong> 키오스크 주문/온라인 기차표 예매</li>
-              <li>🔒 <strong>금융 피싱 안심 안전</strong> 실버 보이스피싱 예방 특강</li>
-              <li>🌻 <strong>다양한 정기 축제</strong>, 교양 인문학 힐링 야외 소모임</li>
+              <li>📱 <strong>키오스크/모바일 뱅킹</strong> 실전 디지털 리터러시</li>
+              <li>🔒 <strong>금융 피싱 원천 예방</strong> 및 안심 보이스피싱 교실</li>
+              <li>🌻 <strong>루먼픽 테마 나들이</strong>, 명사 초청 교양 인문학 특강</li>
             </ul>
             <div class="card-footer">
               <a href="#experience" class="btn btn-outline btn-full font-medium" onclick="scrollToExperience('smartphone')">
@@ -333,17 +397,17 @@
     </div>
   </section>
 
-  <!-- [신규] 📢 루먼픽 배움 소식 및 교육 일지 게시판 (실시간 영구 보관 피드) -->
+  <!-- 📢 루먼픽 배움 소식 및 교육 일지 게시판 -->
   <section class="education-feed-section" id="educationBoard">
     <div class="section-container">
       <div class="section-header text-center">
         <div class="header-tts-wrap">
-          <h2 id="boardTitle">📢 루먼픽 오늘의 배움 소식 (실시간 교육 일지)</h2>
+          <h2 id="boardTitle">📢 루먼픽 배움 소식판 (실시간 교육 일지)</h2>
           <button onclick="speakText('루먼픽 오늘의 배움 소식판. 강사들이 매 세션 진행한 교육 내용과 어르신들의 반응을 기록한 교육 일지 피드입니다. 아래 필터를 클릭해 카테고리별로 일지를 확인하실 수 있습니다.')" class="btn-tts" aria-label="교육 일지 게시판 소개 소리로 듣기">
             🔊 소리로 듣기
           </button>
         </div>
-        <p class="section-subtitle font-large">퍼실레이터와 루먼픽의 어르신들이 함께 일군 실시간 현장 수업 리포트입니다.</p>
+        <p class="section-subtitle font-large">퍼실레이터와 루먼픽의 어르신들이 함께 일군 소중한 현장 학습 보고서입니다.</p>
       </div>
 
       <!-- 카테고리 필터링 탭 -->
@@ -382,10 +446,10 @@
         <div class="exp-card" id="memory-game-section">
           <div class="exp-header bg-mint-gradient">
             <h3>🧠 '두뇌 생생' 카드 짝 맞추기</h3>
-            <span class="exp-badge">기억력 건강</span>
+            <span class="exp-badge">기억력 훈련</span>
           </div>
           <div class="exp-body text-center">
-            <p class="font-medium text-dark mb-4">카드를 눌러 뒤집고, <strong>같은 짝의 이모티콘 카드</strong>를 연달아 맞추면 머리가 시원해집니다!</p>
+            <p class="font-medium text-dark mb-4">카드를 눌러 뒤집고, <strong>같은 짝의 이모티콘 카드</strong>를 연달아 맞추면 머리가 맑아집니다!</p>
             
             <!-- 게임 스코어 및 컨트롤 -->
             <div class="game-controls">
@@ -433,7 +497,7 @@
                     <div class="chat-date font-small">2026년 6월 2일 화요일</div>
                     <div class="chat-bubble received">
                       <div class="bubble-sender">아들 🧑‍🦱</div>
-                      <div class="bubble-content font-medium">엄마, 오늘 날씨 좋은데 기분은 어떠세요? 😊</div>
+                      <div class="bubble-content font-medium">엄마, 오늘 루먼픽 학교 첫날인데 공부는 어떠셨어요? 😊</div>
                     </div>
                   </div>
 
@@ -468,7 +532,7 @@
     </div>
   </section>
 
-  <!-- 📞 간편 안심 상담 신청 (Quick Contact) -->
+  <!-- 📞 간편 안심 상담 신청 -->
   <section class="contact-section" id="contact">
     <div class="section-container card-shadow">
       <div class="contact-layout">
@@ -476,14 +540,14 @@
         <!-- 왼쪽 안내 글귀 -->
         <div class="contact-info">
           <div class="contact-tts-wrap">
-            <h2 id="contactTitle">📞 3초 간편 안심 상담 신청</h2>
+            <h2>📞 3초 간편 안심 상담 신청</h2>
             <button onclick="speakText('3초 간편 안심 상담 신청. 복잡한 가입 없이 성함과 전화번호만 남겨주세요. 24시간 내에 복지 상담사가 안전하게 전화를 드립니다. 자녀분들의 대리 상담 신청도 환영합니다.')" class="btn-tts" aria-label="상담 신청 안내 목소리로 듣기">
               🔊 소리로 듣기
             </button>
           </div>
           <p class="font-large text-dark mb-4 mt-3 leading-relaxed">
-            복잡한 회원가입이나 긴 서류 작성은 전혀 필요 없습니다!<br>
-            <strong>성함</strong>과 <strong>전화번호</strong>만 큼직하게 남겨주시면, 루먼픽의 마음 따뜻한 배움 지도사가 24시간 이내에 직접 편안하게 전화로 설명해 드립니다.
+            복잡한 회원등록이나 대기 서류 작성은 전혀 필요 없습니다.<br>
+            <strong>성함</strong>과 <strong>전화번호</strong>만 가볍게 남겨주시면, 루먼픽의 마음 따뜻한 입학 지도사가 24시간 이내에 직접 전화로 친절하게 설명해 드립니다.
           </p>
           <div class="badge-row font-medium">
             <span class="contact-badge-item">🔒 안심 개인정보 보호</span>
@@ -497,7 +561,7 @@
           <form id="quickContactForm" onsubmit="handleContactSubmit(event)">
             
             <div class="form-group">
-              <label for="userName" class="font-large">1. 어르신의 성함 (또는 자녀분 이름)</label>
+              <label for="userName" class="font-large">1. 어르신의 성함 (또는 신청 자녀 이름)</label>
               <input type="text" id="userName" name="userName" required class="input-large font-large" placeholder="예: 홍길동 (자녀 신청 시 '홍길동 자녀')">
             </div>
 
@@ -526,7 +590,7 @@
           <div id="contactSuccessMsg" class="contact-success-box text-center d-none">
             <span class="success-check">✔️</span>
             <h3 class="font-large color-mint">상담 신청이 완료되었습니다!</h3>
-            <p class="font-medium text-muted mt-2">입력해주신 연락처로 따뜻하고 친절하게 곧 전화드리겠습니다.<br>감사합니다. 행복한 하루 되세요! 🌸</p>
+            <p class="font-medium text-muted mt-2">입력해주신 연락처로 따뜻하고 친절하게 곧 전화드리겠습니다.<br>감사합니다. 행복한 하루 되세요!</p>
             <button onclick="resetContactForm()" class="btn btn-outline mt-3 font-medium">새로운 상담 신청하기</button>
           </div>
         </div>
@@ -541,7 +605,7 @@
       
       <div class="footer-top">
         <div class="footer-brand">
-          <span class="logo-emoji">🌸</span> <span class="logo-text">실버교육기관 루먼픽</span>
+          <span class="logo-text">실버교육기관 루먼픽</span>
           <p class="font-medium text-muted mt-2">어르신들의 꿈과 건강한 라이프를 응원하는 고품격 맞춤 평생학습 공간</p>
         </div>
         <div class="footer-call">
